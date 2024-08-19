@@ -1,6 +1,4 @@
-﻿using Comfort.Common;
-using EFT;
-using EFT.InventoryLogic;
+﻿using EFT.InventoryLogic;
 using EFT.UI.DragAndDrop;
 using HarmonyLib;
 using SPT.Reflection.Patching;
@@ -22,18 +20,12 @@ namespace MergeConsumables
 			protected override MethodBase GetTargetMethod()
 			{
 				return AccessTools.Method(typeof(TraderControllerClass), nameof(TraderControllerClass.ExecutePossibleAction),
-					new[] { typeof(ItemContextAbstractClass), typeof(Item), typeof(bool), typeof(bool) });
+					[typeof(ItemContextAbstractClass), typeof(Item), typeof(bool), typeof(bool)]);
 			}
 
 			[PatchPrefix]
 			public static bool Prefix(TraderControllerClass __instance, ItemContextAbstractClass itemContext, Item targetItem, bool simulate, ref GStruct413 __result)
 			{
-				AbstractGame instance = Singleton<AbstractGame>.Instance;
-				if (instance is Interface9 || instance is LocalGame)
-				{
-					return true;
-				}
-
 				if (itemContext.Item is MedsClass rootMedItem
 					&& rootMedItem.MedKitComponent != null
 					&& targetItem is MedsClass targetMedItem
