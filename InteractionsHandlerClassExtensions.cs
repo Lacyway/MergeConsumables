@@ -1,4 +1,5 @@
 ﻿using Comfort.Common;
+using EFT;
 using EFT.InventoryLogic;
 using EFT.UI;
 
@@ -49,6 +50,13 @@ namespace MergeConsumables
 				}
 
 				Singleton<GUISounds>.Instance.PlayItemSound(item.ItemSound, EInventorySoundType.drop);
+				CombineItemsModel model = new CombineItemsModel(item.Id,
+					targetItem.Id,
+					rootComponent.HpResource,
+					targetComponent.HpResource,
+					"medical");
+
+				SendOperation(model);
 			}
 
 			return new MC_Meds_Operation(item, targetItem, itemController);
@@ -97,9 +105,28 @@ namespace MergeConsumables
 				}
 
 				Singleton<GUISounds>.Instance.PlayItemSound(item.ItemSound, EInventorySoundType.drop);
+				CombineItemsModel model = new(item.Id,
+					targetItem.Id,
+					rootComponent.HpPercent,
+					targetComponent.HpPercent,
+					"food");
+
+				SendOperation(model);
+
 			}
 
 			return new MC_Food_Operation(item, targetItem, itemController);
+		}
+
+		private static void SendOperation(CombineItemsModel model)
+		{
+			AbstractGame instance = Singleton<AbstractGame>.Instance;
+			if (instance != null && instance is not HideoutGame)
+			{
+				return;
+			}
+
+			Singleton<ClientApplication<ISession>>.Instance.Session.SendOperationRightNow(model, (ar) => { });
 		}
 	}
 }

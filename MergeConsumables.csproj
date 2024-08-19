@@ -8,11 +8,12 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MergeConsumables</RootNamespace>
     <AssemblyName>MergeConsumables</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,6 +51,10 @@
     <Reference Include="Comfort">
       <HintPath>References\Comfort.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>References\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="spt-reflection">
       <HintPath>References\spt-reflection.dll</HintPath>
     </Reference>
@@ -72,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CombineItemsModel.cs" />
     <Compile Include="InteractionsHandlerClassExtensions.cs" />
     <Compile Include="MC_Food_Operation.cs" />
     <Compile Include="MC_Meds_Operation.cs" />
