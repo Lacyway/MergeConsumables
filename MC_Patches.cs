@@ -1,6 +1,4 @@
-﻿using Comfort.Common;
-using EFT;
-using EFT.InventoryLogic;
+﻿using EFT.InventoryLogic;
 using EFT.UI.DragAndDrop;
 using HarmonyLib;
 using SPT.Reflection.Patching;

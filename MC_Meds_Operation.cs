@@ -65,7 +65,7 @@ namespace MergeConsumables
 		public GStruct413 Execute()
 		{
 			return InteractionsHandlerClassExtensions.MergeMeds((MedsClass)item, (MedsClass)targetItem, itemController, false);
-        }
+		}
 
 		public void RaiseEvents(TraderControllerClass controller, CommandStatus status)
 		{
