@@ -1,9 +1,9 @@
-﻿using EFT.InventoryLogic;
-using EFT.UI.DragAndDrop;
+﻿using Comfort.Common;
+using EFT;
+using EFT.InventoryLogic;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace MergeConsumables
 {
@@ -12,7 +12,7 @@ namespace MergeConsumables
 		public void Enable()
 		{
 			new ExecutePossibleAction_Patch().Enable();
-			new AcceptItem_Patch().Enable();
+			new RunNetworkTransaction_Patch().Enable();
 		}
 
 		public class ExecutePossibleAction_Patch : ModulePatch
@@ -31,7 +31,7 @@ namespace MergeConsumables
 					&& targetItem is MedsClass targetMedItem
 					&& targetMedItem.MedKitComponent != null)
 				{
-					__result = InteractionsHandlerClassExtensions.MergeMeds(rootMedItem, targetMedItem, __instance, simulate);
+					__result = InteractionsHandlerClassExtensions.MergeMeds(rootMedItem, targetMedItem, 0, __instance, simulate);
 					return false;
 				}
 
@@ -40,7 +40,7 @@ namespace MergeConsumables
 					&& targetItem is FoodClass targetFoodItem
 					&& targetFoodItem.FoodDrinkComponent != null)
 				{
-					__result = InteractionsHandlerClassExtensions.MergeFood(rootFoodItem, targetFoodItem, __instance, simulate);
+					__result = InteractionsHandlerClassExtensions.MergeFood(rootFoodItem, targetFoodItem, 0, __instance, simulate);
 					return false;
 				}
 
@@ -48,35 +48,55 @@ namespace MergeConsumables
 			}
 		}
 
-		public class AcceptItem_Patch : ModulePatch
+		public class RunNetworkTransaction_Patch : ModulePatch
 		{
 			protected override MethodBase GetTargetMethod()
 			{
-				return typeof(GridView).GetMethod(nameof(GridView.AcceptItem));
+				return typeof(TraderControllerClass).GetMethod(nameof(TraderControllerClass.RunNetworkTransaction));
 			}
 
 			[PatchPrefix]
-			public static bool Prefix(GridView __instance, ItemContextClass itemContext, ItemContextAbstractClass targetItemContext, ref Task __result)
+			public static bool Prefix(TraderControllerClass __instance, IRaiseEvents operationResult, Callback callback)
 			{
-				if (__instance.CanAccept(itemContext, targetItemContext, out GStruct413 result))
+				if (operationResult is MC_Food_Operation foodOperation)
 				{
-					if (result.Value is MC_Meds_Operation medOperation)
+					var result = foodOperation.Execute();
+					if (result.Succeeded && result.Value is MC_Food_Operation executedFoodOperation)
 					{
-						medOperation.Execute();
-						medOperation.RaiseEvents(medOperation.ItemController, CommandStatus.Succeed);
-						__result = Task.CompletedTask;
-						return false;
+						executedFoodOperation.RaiseEvents(executedFoodOperation.ItemController, CommandStatus.Begin);
+						SendOperation(executedFoodOperation.ToCombineItemsModel(), callback);
+						executedFoodOperation.RaiseEvents(executedFoodOperation.ItemController, CommandStatus.Succeed);
 					}
 
-					if (result.Value is MC_Food_Operation foodOperation)
-					{
-						foodOperation.Execute();
-						foodOperation.RaiseEvents(foodOperation.ItemController, CommandStatus.Succeed);
-						__result = Task.CompletedTask;
-						return false;
-					}
+					return false;
 				}
+
+				if (operationResult is MC_Meds_Operation medsOperation)
+				{
+					var result = medsOperation.Execute();
+					if (result.Succeeded && result.Value is MC_Meds_Operation executedMedsOperation)
+					{
+						executedMedsOperation.RaiseEvents(executedMedsOperation.ItemController, CommandStatus.Begin);
+						SendOperation(executedMedsOperation.ToCombineItemsModel(), callback);
+						executedMedsOperation.RaiseEvents(executedMedsOperation.ItemController, CommandStatus.Succeed);
+					}
+
+					return false;
+				}
+
 				return true;
+			}
+
+			private static void SendOperation(CombineItemsModel model, Callback callback)
+			{
+				AbstractGame instance = Singleton<AbstractGame>.Instance;
+				if (instance != null && instance is not HideoutGame)
+				{
+					return;
+				}
+
+				callback ??= result => { };
+				Singleton<ClientApplication<ISession>>.Instance.Session.SendOperationRightNow(model, callback);
 			}
 		}
 	}
