@@ -1,13 +1,13 @@
 ﻿using Comfort.Common;
 using EFT;
 using EFT.InventoryLogic;
-using EFT.UI;
+using UnityEngine;
 
 namespace MergeConsumables
 {
 	public static class InteractionsHandlerClassExtensions
 	{
-		public static GStruct414<MC_Meds_Operation> MergeMeds(MedsClass item, MedsClass targetItem, TraderControllerClass itemController, bool simulate)
+		public static GStruct414<MC_Meds_Operation> MergeMeds(MedsClass item, MedsClass targetItem, float count, TraderControllerClass itemController, bool simulate)
 		{
 			if (item.TemplateId != targetItem.TemplateId)
 			{
@@ -24,45 +24,41 @@ namespace MergeConsumables
 				return new GClass3370("Already max");
 			}
 
-			if (!simulate)
+			MedKitComponent rootComponent = item.MedKitComponent;
+			MedKitComponent targetComponent = targetItem.MedKitComponent;
+
+			float originalRootHp = rootComponent.HpResource;
+			float originalTargetHp = targetComponent.HpResource;
+
+			float maxTransferable = Mathf.Min(targetComponent.MaxHpResource - targetComponent.HpResource, rootComponent.HpResource);
+			float transferAmount = count > 0 ? Mathf.Min(count, maxTransferable) : maxTransferable;
+
+			rootComponent.HpResource -= transferAmount;
+			targetComponent.HpResource += transferAmount;
+
+			GStruct414<GClass2799> discard = default;
+			if (rootComponent.HpResource <= 0)
 			{
-				MedKitComponent rootComponent = item.MedKitComponent;
-				MedKitComponent targetComponent = targetItem.MedKitComponent;
-
-				while (rootComponent.HpResource > 0 && targetComponent.HpResource < targetComponent.MaxHpResource)
+				discard = InteractionsHandlerClass.Discard(item, itemController, false, false);
+				if (!discard.Succeeded)
 				{
-					rootComponent.HpResource--;
-					targetComponent.HpResource++;
+					MC_Plugin.MC_Logger.LogError(discard.Error);
+					return discard.Error;
 				}
-
-				if (rootComponent.HpResource <= 0)
-				{
-					GStruct414<GClass2799> discard = InteractionsHandlerClass.Discard(item, itemController, false, false);
-					if (!discard.Succeeded)
-					{
-						MC_Plugin.MC_Logger.LogError(discard.Error);
-					}
-					else
-					{
-						discard.Value.RaiseEvents(itemController, CommandStatus.Begin);
-						discard.Value.RaiseEvents(itemController, CommandStatus.Succeed);
-					}
-				}
-
-				Singleton<GUISounds>.Instance.PlayItemSound(item.ItemSound, EInventorySoundType.drop);
-				CombineItemsModel model = new CombineItemsModel(item.Id,
-					targetItem.Id,
-					rootComponent.HpResource,
-					targetComponent.HpResource,
-					"medical");
-
-				SendOperation(model);
 			}
 
-			return new MC_Meds_Operation(item, targetItem, itemController);
+			if (simulate)
+			{
+				discard.Value?.RollBack();
+
+				rootComponent.HpResource = originalRootHp;
+				targetComponent.HpResource = originalTargetHp;
+			}
+
+			return new MC_Meds_Operation(item, targetItem, transferAmount, discard, itemController);
 		}
 
-		public static GStruct414<MC_Food_Operation> MergeFood(FoodClass item, FoodClass targetItem, TraderControllerClass itemController, bool simulate)
+		public static GStruct414<MC_Food_Operation> MergeFood(FoodClass item, FoodClass targetItem, float count, TraderControllerClass itemController, bool simulate)
 		{
 			if (item.TemplateId != targetItem.TemplateId)
 			{
@@ -79,43 +75,38 @@ namespace MergeConsumables
 				return new GClass3370("Already max");
 			}
 
-			if (!simulate)
+			FoodDrinkComponent rootComponent = item.FoodDrinkComponent;
+			FoodDrinkComponent targetComponent = targetItem.FoodDrinkComponent;
+
+			float originalRootHp = rootComponent.HpPercent;
+			float originalTargetHp = targetComponent.HpPercent;
+
+			float maxTransferable = Mathf.Min(targetComponent.MaxResource - targetComponent.HpPercent, rootComponent.HpPercent);
+			float transferAmount = count > 0 ? Mathf.Min(count, maxTransferable) : maxTransferable;
+
+			rootComponent.HpPercent -= transferAmount;
+			targetComponent.HpPercent += transferAmount;
+
+			GStruct414<GClass2799> discard = default;
+			if (rootComponent.HpPercent <= 0)
 			{
-				FoodDrinkComponent rootComponent = item.FoodDrinkComponent;
-				FoodDrinkComponent targetComponent = targetItem.FoodDrinkComponent;
-
-				while (rootComponent.HpPercent > 0 && targetComponent.HpPercent < targetComponent.MaxResource)
+				discard = InteractionsHandlerClass.Discard(item, itemController, false, false);
+				if (!discard.Succeeded)
 				{
-					rootComponent.HpPercent--;
-					targetComponent.HpPercent++;
+					MC_Plugin.MC_Logger.LogError(discard.Error);
+					return discard.Error;
 				}
-
-				if (rootComponent.HpPercent <= 0)
-				{
-					GStruct414<GClass2799> discard = InteractionsHandlerClass.Discard(item, itemController, false, false);
-					if (!discard.Succeeded)
-					{
-						MC_Plugin.MC_Logger.LogError(discard.Error);
-					}
-					else
-					{
-						discard.Value.RaiseEvents(itemController, CommandStatus.Begin);
-						discard.Value.RaiseEvents(itemController, CommandStatus.Succeed);
-					}
-				}
-
-				Singleton<GUISounds>.Instance.PlayItemSound(item.ItemSound, EInventorySoundType.drop);
-				CombineItemsModel model = new(item.Id,
-					targetItem.Id,
-					rootComponent.HpPercent,
-					targetComponent.HpPercent,
-					"food");
-
-				SendOperation(model);
-
 			}
 
-			return new MC_Food_Operation(item, targetItem, itemController);
+			if (simulate)
+			{
+				discard.Value?.RollBack();
+
+				rootComponent.HpPercent = originalRootHp;
+				targetComponent.HpPercent = originalTargetHp;
+			}
+
+			return new MC_Food_Operation(item, targetItem, transferAmount, discard, itemController);
 		}
 
 		private static void SendOperation(CombineItemsModel model)
