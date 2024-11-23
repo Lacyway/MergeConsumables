@@ -24,20 +24,20 @@ namespace MergeConsumables
 			}
 
 			[PatchPrefix]
-			public static bool Prefix(TraderControllerClass __instance, ItemContextAbstractClass itemContext, Item targetItem, bool simulate, ref GStruct413 __result)
+			public static bool Prefix(TraderControllerClass __instance, ItemContextAbstractClass itemContext, Item targetItem, bool simulate, ref GStruct445 __result)
 			{
-				if (itemContext.Item is MedsClass rootMedItem
+				if (itemContext.Item is MedsItemClass rootMedItem
 					&& rootMedItem.MedKitComponent != null
-					&& targetItem is MedsClass targetMedItem
+					&& targetItem is MedsItemClass targetMedItem
 					&& targetMedItem.MedKitComponent != null)
 				{
 					__result = InteractionsHandlerClassExtensions.MergeMeds(rootMedItem, targetMedItem, 0, __instance, simulate);
 					return false;
 				}
 
-				if (itemContext.Item is FoodClass rootFoodItem
+				if (itemContext.Item is FoodDrinkItemClass rootFoodItem
 					&& rootFoodItem.FoodDrinkComponent != null
-					&& targetItem is FoodClass targetFoodItem
+					&& targetItem is FoodDrinkItemClass targetFoodItem
 					&& targetFoodItem.FoodDrinkComponent != null)
 				{
 					__result = InteractionsHandlerClassExtensions.MergeFood(rootFoodItem, targetFoodItem, 0, __instance, simulate);
