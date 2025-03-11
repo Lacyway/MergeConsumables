@@ -7,21 +7,21 @@ namespace MergeConsumables
 {
 	public static class InteractionsHandlerClassExtensions
 	{
-		public static GStruct446<MC_Meds_Operation> MergeMeds(MedsItemClass item, MedsItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
+		public static GStruct455<MC_Meds_Operation> MergeMeds(MedsItemClass item, MedsItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
 		{
 			if (item.TemplateId != targetItem.TemplateId)
 			{
-				return new GClass3757("Not same item");
+				return new GClass3854("Not same item");
 			}
 
 			if (item.Id == targetItem.Id)
 			{
-				return new GClass3757("Same item?");
+				return new GClass3854("Same item?");
 			}
 
 			if (targetItem.MedKitComponent.HpResource >= targetItem.MedKitComponent.MaxHpResource)
 			{
-				return new GClass3757("Already max");
+				return new GClass3854("Already max");
 			}
 
 			MedKitComponent rootComponent = item.MedKitComponent;
@@ -36,7 +36,7 @@ namespace MergeConsumables
 			rootComponent.HpResource -= transferAmount;
 			targetComponent.HpResource += transferAmount;
 
-			GStruct446<GClass3129> discard = default;
+			GStruct455<GClass3200> discard = default;
 			if (rootComponent.HpResource <= 0)
 			{
 				discard = InteractionsHandlerClass.Discard(item, itemController, false);
@@ -55,24 +55,24 @@ namespace MergeConsumables
 				targetComponent.HpResource = originalTargetHp;
 			}
 
-			return new MC_Meds_Operation(item, targetItem, transferAmount, discard, itemController);
+			return new MC_Meds_Operation(item, item.Parent, targetItem, transferAmount, discard, itemController);
 		}
 
-		public static GStruct446<MC_Food_Operation> MergeFood(FoodDrinkItemClass item, FoodDrinkItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
+		public static GStruct455<MC_Food_Operation> MergeFood(FoodDrinkItemClass item, FoodDrinkItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
 		{
 			if (item.TemplateId != targetItem.TemplateId)
 			{
-				return new GClass3757("Not same item");
+				return new GClass3854("Not same item");
 			}
 
 			if (item.Id == targetItem.Id)
 			{
-				return new GClass3757("Same item?");
+				return new GClass3854("Same item?");
 			}
 
 			if (targetItem.FoodDrinkComponent.HpPercent >= targetItem.FoodDrinkComponent.MaxResource)
 			{
-				return new GClass3757("Already max");
+				return new GClass3854("Already max");
 			}
 
 			FoodDrinkComponent rootComponent = item.FoodDrinkComponent;
@@ -87,7 +87,7 @@ namespace MergeConsumables
 			rootComponent.HpPercent -= transferAmount;
 			targetComponent.HpPercent += transferAmount;
 
-			GStruct446<GClass3129> discard = default;
+			GStruct455<GClass3200> discard = default;
 			if (rootComponent.HpPercent <= 0)
 			{
 				discard = InteractionsHandlerClass.Discard(item, itemController, false);
@@ -106,7 +106,7 @@ namespace MergeConsumables
 				targetComponent.HpPercent = originalTargetHp;
 			}
 
-			return new MC_Food_Operation(item, targetItem, transferAmount, discard, itemController);
+			return new MC_Food_Operation(item, item.Parent, targetItem, transferAmount, discard, itemController);
 		}
 
 		private static void SendOperation(CombineItemsModel model)

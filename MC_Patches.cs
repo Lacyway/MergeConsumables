@@ -24,7 +24,7 @@ namespace MergeConsumables
 			}
 
 			[PatchPrefix]
-			public static bool Prefix(TraderControllerClass __instance, ItemContextAbstractClass itemContext, Item targetItem, bool simulate, ref GStruct445 __result)
+			public static bool Prefix(TraderControllerClass __instance, ItemContextAbstractClass itemContext, Item targetItem, bool simulate, ref GStruct454 __result)
 			{
 				if (itemContext.Item is MedsItemClass rootMedItem
 					&& rootMedItem.MedKitComponent != null

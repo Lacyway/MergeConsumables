@@ -2,11 +2,12 @@
 
 namespace MergeConsumables
 {
-	public class MC_Food_Operation : IExecute, IRaiseEvents, GInterface385, GInterface390, GInterface394
-	{
-		public MC_Food_Operation(FoodDrinkItemClass item, FoodDrinkItemClass targetItem, float count, GStruct446<GClass3129> discard, TraderControllerClass itemController)
+	public class MC_Food_Operation : IExecute, IRaiseEvents, GInterface398, GInterface403, GInterface407
+    {
+		public MC_Food_Operation(FoodDrinkItemClass item, ItemAddress from, FoodDrinkItemClass targetItem, float count, GStruct455<GClass3200> discard, TraderControllerClass itemController)
 		{
 			this.item = item;
+            this.from = from;
 			this.targetItem = targetItem;
 			this.count = count;
 			this.discard = discard;
@@ -29,6 +30,14 @@ namespace MergeConsumables
 			}
 		}
 
+        public ItemAddress From
+        {
+            get
+            {
+                return from;
+            }
+        }
+
 		public Item TargetItem
 		{
 			get
@@ -46,10 +55,11 @@ namespace MergeConsumables
 		}
 
 		private readonly FoodDrinkItemClass item;
+        private readonly ItemAddress from;
 		private readonly FoodDrinkItemClass targetItem;
 		private readonly float count;
 		private readonly TraderControllerClass itemController;
-		private readonly GStruct446<GClass3129> discard;
+		private readonly GStruct455<GClass3200> discard;
 
 		public bool CanExecute(TraderControllerClass itemController)
 		{
@@ -64,7 +74,7 @@ namespace MergeConsumables
 			return false;
 		}
 
-		public GStruct445 Execute()
+		public GStruct454 Execute()
 		{
 			return InteractionsHandlerClassExtensions.MergeFood(item, targetItem, count, itemController, false);
 		}
