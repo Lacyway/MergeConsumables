@@ -396,6 +396,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
 /References
-/server/serverMod/types
+/server/serverMod/types/
 /server/serverMod/dist/
