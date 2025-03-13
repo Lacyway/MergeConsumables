@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 /References
 /server/serverMod/types
+/server/serverMod/dist/
