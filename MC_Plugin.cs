@@ -3,7 +3,7 @@ using BepInEx.Logging;
 
 namespace MergeConsumables
 {
-	[BepInPlugin("com.lacyway.mc", "MergeConsumables", "1.2.0")]
+	[BepInPlugin("com.lacyway.mc", "MergeConsumables", "1.3.0")]
 	internal class MC_Plugin : BaseUnityPlugin
 	{
 		internal static ManualLogSource MC_Logger;
