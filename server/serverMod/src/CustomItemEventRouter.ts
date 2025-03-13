@@ -53,9 +53,31 @@ export class CustomInventoryItemEventRouter extends ItemEventRouterDefinition {
                 if (sItem.upd?.MedKit && tItem.upd?.MedKit) {
                     sItem.upd.MedKit.HpResource = sourceAmount;
                     tItem.upd.MedKit.HpResource = targetAmount;
-                }
-                else {
+                } else if ((sItem._tpl === tItem._tpl)) {
+
+                    if (!sItem.upd) {
+                        sItem.upd = {};
+                    }
+                    if (!sItem.upd.MedKit) {
+                        sItem.upd.MedKit = { HpResource: sourceAmount }
+                    } else {
+                        sItem.upd.MedKit.HpResource = sourceAmount;
+                    }
+                    if (!tItem.upd) {
+                        tItem.upd = {};
+                    }
+                    if (!tItem.upd.MedKit) {
+                        tItem.upd.MedKit = { HpResource: targetAmount };
+                    } else {
+                        tItem.upd.MedKit.HpResource = targetAmount;
+                    }
+
+                    this.logger.warning("MedKit was missing on source or target item -- attempted resolve with item _tpl")
+
+                } else {
                     this.logger.error("MedKit was missing on source or target item!");
+                    this.logger.error("tItem: " + JSON.stringify(tItem));
+                    this.logger.error("sItem: " + JSON.stringify(sItem));
                     return;
                 }
                 break;
