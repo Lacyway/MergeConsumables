@@ -55,7 +55,7 @@ namespace MergeConsumables
 				targetComponent.HpResource = originalTargetHp;
 			}
 
-			return new MC_Meds_Operation(item, item.Parent, targetItem, transferAmount, discard, itemController);
+			return new MC_Meds_Operation(item, item.CurrentAddress, targetItem, transferAmount, discard, itemController);
 		}
 
 		public static GStruct455<MC_Food_Operation> MergeFood(FoodDrinkItemClass item, FoodDrinkItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
@@ -106,7 +106,7 @@ namespace MergeConsumables
 				targetComponent.HpPercent = originalTargetHp;
 			}
 
-			return new MC_Food_Operation(item, item.Parent, targetItem, transferAmount, discard, itemController);
+			return new MC_Food_Operation(item, item.CurrentAddress, targetItem, transferAmount, discard, itemController);
 		}
 
 		private static void SendOperation(CombineItemsModel model)
