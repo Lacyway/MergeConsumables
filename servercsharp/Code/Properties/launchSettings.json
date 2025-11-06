@@ -1,0 +1,27 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:61168",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://localhost:61168;http://localhost:61169"
+      },
+      "distributionName": ""
+    },
+    "MergeConsumables": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:61168;http://localhost:61169"
+    },
+    "Debug SPT": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\eddie\\Documents\\GitHub\\server-csharp\\SPTarkov.Server\\bin\\Debug\\net9.0\\SPT.Server.exe",
+      "workingDirectory": "C:\\Users\\eddie\\Documents\\GitHub\\server-csharp\\SPTarkov.Server\\bin\\Debug\\net9.0\\"
+    }
+  }
+}

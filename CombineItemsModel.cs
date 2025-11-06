@@ -1,35 +1,25 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace MergeConsumables
+namespace MergeConsumables;
+
+[Serializable]
+public class CombineItemsModel(string sourceItem, string targetItem, float sourceAmount, float targetAmount, string type)
 {
-	[Serializable]
-	public class CombineItemsModel
-	{
-		public string Action = "Combine";
+    public string Action = "Combine";
 
-		[JsonProperty("sourceItem")]
-		public string SourceItem;
+    [JsonProperty("sourceItem")]
+    public string SourceItem = sourceItem;
 
-		[JsonProperty("targetItem")]
-		public string TargetItem;
+    [JsonProperty("targetItem")]
+    public string TargetItem = targetItem;
 
-		[JsonProperty("sourceAmount")]
-		public float SourceAmount;
+    [JsonProperty("sourceAmount")]
+    public float SourceAmount = sourceAmount;
 
-		[JsonProperty("targetAmount")]
-		public float TargetAmount;
+    [JsonProperty("targetAmount")]
+    public float TargetAmount = targetAmount;
 
-		[JsonProperty("type")]
-		public string Type;
-
-		public CombineItemsModel(string sourceItem, string targetItem, float sourceAmount, float targetAmount, string type)
-		{
-			SourceItem = sourceItem;
-			TargetItem = targetItem;
-			SourceAmount = sourceAmount;
-			TargetAmount = targetAmount;
-			Type = type;
-		}
-	}
+    [JsonProperty("type")]
+    public string Type = type;
 }
