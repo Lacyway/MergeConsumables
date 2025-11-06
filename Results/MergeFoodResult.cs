@@ -1,15 +1,16 @@
 ﻿using EFT.InventoryLogic;
+using MergeConsumables.Models;
 
-namespace MergeConsumables;
+namespace MergeConsumables.Results;
 
-public class MC_Meds_Operation : IExecute, IRaiseEvents, GInterface424, GInterface429, GInterface433
+public class MergeFoodResult : IExecute, IRaiseEvents, GInterface424, GInterface429, GInterface433
 {
-    public MC_Meds_Operation(MedsItemClass item, ItemAddress from, MedsItemClass targetItem, float count, GStruct154<GClass3408> discard, TraderControllerClass itemController)
+    public MergeFoodResult(FoodDrinkItemClass item, ItemAddress from, FoodDrinkItemClass targetItem, float count, GStruct154<GClass3408> discard, TraderControllerClass itemController)
     {
         _item = item;
         From = from;
         _targetItem = targetItem;
-        _count = count;
+        Count = count;
         _discard = discard;
         ItemController = itemController;
     }
@@ -40,11 +41,12 @@ public class MC_Meds_Operation : IExecute, IRaiseEvents, GInterface424, GInterfa
         }
     }
 
+    public float Count { get; }
+
     public TraderControllerClass ItemController { get; }
 
-    private readonly MedsItemClass _item;
-    private readonly MedsItemClass _targetItem;
-    private readonly float _count;
+    private readonly FoodDrinkItemClass _item;
+    private readonly FoodDrinkItemClass _targetItem;
     private readonly GStruct154<GClass3408> _discard;
 
     public bool CanExecute(TraderControllerClass itemController)
@@ -62,7 +64,7 @@ public class MC_Meds_Operation : IExecute, IRaiseEvents, GInterface424, GInterfa
 
     public GStruct153 Execute()
     {
-        return InteractionsHandlerClassExtensions.MergeMeds(_item, _targetItem, _count, ItemController, false);
+        return InteractionsHandlerClassExtensions.MergeFood(_item, _targetItem, Count, ItemController, false);
     }
 
     public void RaiseEvents(IItemOwner controller, CommandStatus status)
@@ -86,11 +88,12 @@ public class MC_Meds_Operation : IExecute, IRaiseEvents, GInterface424, GInterfa
             _discard.Value.RollBack();
         }
 
-        InteractionsHandlerClassExtensions.MergeMeds(_targetItem, _item, _count, ItemController, false);
+        InteractionsHandlerClassExtensions.MergeFood(_targetItem, _item, Count, ItemController, false);
     }
 
     public CombineItemsModel ToCombineItemsModel()
     {
-        return new CombineItemsModel(_item.Id, _targetItem.Id, _item.MedKitComponent.HpResource, _targetItem.MedKitComponent.HpResource, "medical");
+        return new CombineItemsModel(_item.Id, _targetItem.Id,
+            _item.FoodDrinkComponent.HpPercent, _targetItem.FoodDrinkComponent.HpPercent, "food");
     }
 }

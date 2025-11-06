@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace MergeConsumables;
+namespace MergeConsumables.Models;
 
 [Serializable]
-public class CombineItemsModel(string sourceItem, string targetItem, float sourceAmount, float targetAmount, string type)
+public class CombineItemsModel(string sourceItem, string targetItem, float sourceAmount, float targetAmount, string type) : GClass3471
 {
     public string Action = "Combine";
 
@@ -22,4 +22,12 @@ public class CombineItemsModel(string sourceItem, string targetItem, float sourc
 
     [JsonProperty("type")]
     public string Type = type;
+
+    public override bool Queued
+    {
+        get
+        {
+            return false;
+        }
+    }
 }

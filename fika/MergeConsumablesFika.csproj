@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+    <AssemblyName>MergeConsumables</AssemblyName>
+    <RootNamespace>MergeConsumables</RootNamespace>
+    <LangVersion>latest</LangVersion>
+
+    <!-- Optional, but recommended for mod builds -->
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MergeConsumables.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\References\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\References\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\References\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Comfort">
+      <HintPath>..\References\Comfort.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\References\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="spt-reflection">
+      <HintPath>..\References\spt-reflection.dll</HintPath>
+    </Reference>
+
+    <!-- Unity DLLs -->
+    <Reference Include="UnityEngine">
+      <HintPath>..\References\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\References\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\References\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+
+  </ItemGroup>
+
+</Project>

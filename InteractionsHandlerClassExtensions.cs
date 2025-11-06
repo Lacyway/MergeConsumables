@@ -1,12 +1,13 @@
 ﻿using Comfort.Common;
 using EFT;
+using MergeConsumables.Results;
 using UnityEngine;
 
 namespace MergeConsumables;
 
 public static class InteractionsHandlerClassExtensions
 {
-    public static GStruct154<MC_Meds_Operation> MergeMeds(MedsItemClass item, MedsItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
+    public static GStruct154<MergeMedsResult> MergeMeds(MedsItemClass item, MedsItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
     {
         if (item.TemplateId != targetItem.TemplateId)
         {
@@ -54,10 +55,10 @@ public static class InteractionsHandlerClassExtensions
             targetComponent.HpResource = originalTargetHp;
         }
 
-        return new MC_Meds_Operation(item, item.CurrentAddress, targetItem, transferAmount, discard, itemController);
+        return new MergeMedsResult(item, item.CurrentAddress, targetItem, transferAmount, discard, itemController);
     }
 
-    public static GStruct154<MC_Food_Operation> MergeFood(FoodDrinkItemClass item, FoodDrinkItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
+    public static GStruct154<MergeFoodResult> MergeFood(FoodDrinkItemClass item, FoodDrinkItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
     {
         if (item.TemplateId != targetItem.TemplateId)
         {
@@ -105,17 +106,6 @@ public static class InteractionsHandlerClassExtensions
             targetComponent.HpPercent = originalTargetHp;
         }
 
-        return new MC_Food_Operation(item, item.CurrentAddress, targetItem, transferAmount, discard, itemController);
-    }
-
-    private static void SendOperation(CombineItemsModel model)
-    {
-        var instance = Singleton<AbstractGame>.Instance;
-        if (instance != null && instance is not HideoutGame)
-        {
-            return;
-        }
-
-        Singleton<ClientApplication<ISession>>.Instance.Session.SendOperationRightNow(model, (ar) => { });
+        return new MergeFoodResult(item, item.CurrentAddress, targetItem, transferAmount, discard, itemController);
     }
 }

@@ -40,23 +40,29 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>References\0Harmony.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>References\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>References\BepInEx.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Comfort">
       <HintPath>References\Comfort.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>References\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="spt-reflection">
       <HintPath>References\spt-reflection.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,20 +74,33 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>References\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>References\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>References\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CombineItemsModel.cs" />
+    <Compile Include="Descriptors\MergeMedsDescriptor.cs" />
+    <Compile Include="Extensions\EFTWriterClassExtensions.cs" />
+    <Compile Include="Extensions\EFTReaderClassExtensions.cs" />
+    <Compile Include="Models\CombineItemsModel.cs" />
+    <Compile Include="Errors\WrongTypeError.cs" />
     <Compile Include="InteractionsHandlerClassExtensions.cs" />
-    <Compile Include="MC_Food_Operation.cs" />
-    <Compile Include="MC_Meds_Operation.cs" />
-    <Compile Include="MC_Patches.cs" />
+    <Compile Include="Descriptors\MergeFoodDescriptor.cs" />
+    <Compile Include="Operations\MergeMedsOperation.cs" />
+    <Compile Include="Operations\MergeFoodOperation.cs" />
+    <Compile Include="Patches\ConvertOperationResultToOperation_Patch.cs" />
+    <Compile Include="Patches\ExecutePossibleAction_Patch.cs" />
+    <Compile Include="Patches\WritePolymorph_Patch.cs" />
+    <Compile Include="Patches\ReadPolymorph_Patch.cs" />
+    <Compile Include="Results\MergeFoodResult.cs" />
+    <Compile Include="Results\MergeMedsResult.cs" />
     <Compile Include="MC_Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -89,5 +108,6 @@
     <None Include="App.config" />
     <None Include="LICENSE.md" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

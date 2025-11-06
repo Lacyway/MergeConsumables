@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11201.2 d18.0
+VisualStudioVersion = 18.0.11201.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeConsumables", "MergeConsumables.csproj", "{1AA325D3-9FEC-4DFD-B65C-A8054365E44A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeConsumablesServer", "servercsharp\Code\MergeConsumablesServer.csproj", "{13BBB10E-4D64-32BF-6CAB-C5BB67A82E46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeConsumablesFika", "fika\MergeConsumablesFika.csproj", "{5F7C9FAC-A827-8D55-CDEA-9EAD8748C566}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{13BBB10E-4D64-32BF-6CAB-C5BB67A82E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13BBB10E-4D64-32BF-6CAB-C5BB67A82E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13BBB10E-4D64-32BF-6CAB-C5BB67A82E46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F7C9FAC-A827-8D55-CDEA-9EAD8748C566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F7C9FAC-A827-8D55-CDEA-9EAD8748C566}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F7C9FAC-A827-8D55-CDEA-9EAD8748C566}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F7C9FAC-A827-8D55-CDEA-9EAD8748C566}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
