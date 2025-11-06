@@ -22,4 +22,38 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+	<Target Name="PostBuild" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<PropertyGroup>
+			<PackageRoot>$(SolutionDir)release\package</PackageRoot>
+			<ZipOutput>$(SolutionDir)release\MergeConsumables.zip</ZipOutput>
+		</PropertyGroup>
+
+		<!-- Clean output -->
+		<RemoveDir Directories="$(PackageRoot)" />
+
+		<!-- Recreate structure -->
+		<MakeDir Directories="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
+		<MakeDir Directories="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
+
+		<!-- Copy DLLs -->
+		<Copy SourceFiles="$(SolutionDir)bin\Release\MergeConsumables.dll"
+			  DestinationFolder="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
+
+		<Copy SourceFiles="$(ProjectDir)\bin\$(Configuration)\MergeConsumablesServer\MergeConsumablesServer.dll"
+			  DestinationFolder="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
+
+		<!-- Copy LICENSE.md -->
+		<Copy SourceFiles="$(SolutionDir)\LICENSE.md"
+			  DestinationFolder="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
+
+		<Copy SourceFiles="$(SolutionDir)\LICENSE.md"
+			  DestinationFolder="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
+
+		<!-- Create the zip -->
+		<ZipDirectory
+			SourceDirectory="$(PackageRoot)"
+			DestinationFile="$(ZipOutput)"
+			Overwrite="true" />
+	</Target>
+
 </Project>

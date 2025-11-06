@@ -10,7 +10,7 @@ namespace MergeConsumables;
 public record ModMetadata : AbstractModMetadata
 {
     public override string ModGuid { get; init; } = "com.lacyway.mc";
-    public override string Name { get; init; } = "MergeConsumables";
+    public override string Name { get; init; } = "MergeConsumablesServer";
     public override string Author { get; init; } = "Lacyway";
     public override List<string>? Contributors { get; init; }
     public override SemanticVersioning.Version Version { get; init; } = new("1.0.0");
@@ -19,7 +19,7 @@ public record ModMetadata : AbstractModMetadata
     public override Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; }
     public override string? Url { get; init; }
     public override bool? IsBundleMod { get; init; }
-    public override string? License { get; init; } = "CC BY-NC-ND 4.0";
+    public override string License { get; init; } = "CC BY-NC-ND 4.0";
 }
 
 [Injectable(TypePriority = OnLoadOrder.PostDBModLoader + 6000)]
