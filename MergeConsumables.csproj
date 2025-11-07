@@ -87,8 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Descriptors\MergeMedsDescriptor.cs" />
-    <Compile Include="Extensions\EFTWriterClassExtensions.cs" />
-    <Compile Include="Extensions\EFTReaderClassExtensions.cs" />
     <Compile Include="Models\CombineItemsModel.cs" />
     <Compile Include="Errors\WrongTypeError.cs" />
     <Compile Include="InteractionsHandlerClassExtensions.cs" />
@@ -97,8 +95,6 @@
     <Compile Include="Operations\MergeFoodOperation.cs" />
     <Compile Include="Patches\ConvertOperationResultToOperation_Patch.cs" />
     <Compile Include="Patches\ExecutePossibleAction_Patch.cs" />
-    <Compile Include="Patches\WritePolymorph_Patch.cs" />
-    <Compile Include="Patches\ReadPolymorph_Patch.cs" />
     <Compile Include="Results\MergeFoodResult.cs" />
     <Compile Include="Results\MergeMedsResult.cs" />
     <Compile Include="MC_Plugin.cs" />

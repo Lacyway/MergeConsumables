@@ -3,7 +3,6 @@ using BepInEx.Logging;
 using HarmonyLib;
 using MergeConsumables.Descriptors;
 using MergeConsumables.Patches;
-using SPT.Reflection.Patching;
 
 namespace MergeConsumables;
 

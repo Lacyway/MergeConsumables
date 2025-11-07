@@ -1,6 +1,4 @@
-﻿using Comfort.Common;
-using EFT;
-using MergeConsumables.Results;
+﻿using MergeConsumables.Results;
 using UnityEngine;
 
 namespace MergeConsumables;

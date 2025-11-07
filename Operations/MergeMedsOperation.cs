@@ -47,6 +47,8 @@ public class MergeMedsOperation : GClass3475<MergeMedsResult>
         return new MergeMedsDescriptor()
         {
             Operation = this,
+            OwnerId = OwnerId,
+            OperationId = Id,
             SourceItem = SourceItem.Id,
             TargetItem = TargetItem.Id,
             Count = Count

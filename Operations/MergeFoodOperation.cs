@@ -47,6 +47,8 @@ public class MergeFoodOperation : GClass3475<MergeFoodResult>
         return new MergeFoodDescriptor()
         {
             Operation = this,
+            OwnerId = OwnerId,
+            OperationId = Id,
             SourceItem = SourceItem.Id,
             TargetItem = TargetItem.Id,
             Count = Count
