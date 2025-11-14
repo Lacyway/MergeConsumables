@@ -34,7 +34,7 @@ public class MergeMedsOperation : GClass3475<MergeMedsResult>
 
     public override GClass3471 ToBaseInventoryCommand(string ownerId)
     {
-        return Gstruct154_0.Value.ToCombineItemsModel();
+        return Gstruct156_0.Value.ToCombineItemsModel();
     }
 
     public override string ToString()
