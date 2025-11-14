@@ -6,7 +6,7 @@ using MergeConsumables.Patches;
 
 namespace MergeConsumables;
 
-[BepInPlugin("com.lacyway.mc", "MergeConsumables", "1.4.0")]
+[BepInPlugin("com.lacyway.mc", "MergeConsumables", "1.5.0")]
 internal class MC_Plugin : BaseUnityPlugin
 {
     internal static ManualLogSource MC_Logger;

@@ -25,15 +25,20 @@
 	<Target Name="PostBuild" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
 		<PropertyGroup>
 			<PackageRoot>$(SolutionDir)release\package</PackageRoot>
+			<PackageRootAddon>$(SolutionDir)releaseAddon\package</PackageRootAddon>
 			<ZipOutput>$(SolutionDir)release\MergeConsumables.zip</ZipOutput>
+			<ZipOutputAddon>$(SolutionDir)release\MergeConsumablesFika.zip</ZipOutputAddon>
 		</PropertyGroup>
 
 		<!-- Clean output -->
 		<RemoveDir Directories="$(PackageRoot)" />
+		<RemoveDir Directories="$(PackageRootAddon)" />
 
 		<!-- Recreate structure -->
 		<MakeDir Directories="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
 		<MakeDir Directories="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
+
+		<MakeDir Directories="$(PackageRootAddon)\BepInEx\plugins\MergeConsumables" />
 
 		<!-- Copy DLLs -->
 		<Copy SourceFiles="$(SolutionDir)bin\Release\MergeConsumables.dll"
@@ -42,6 +47,9 @@
 		<Copy SourceFiles="$(ProjectDir)\bin\$(Configuration)\MergeConsumablesServer\MergeConsumablesServer.dll"
 			  DestinationFolder="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
 
+		<Copy SourceFiles="$(SolutionDir)fika\bin\$(Configuration)\netstandard2.1\MergeConsumablesFika.dll"
+			  DestinationFolder="$(PackageRootAddon)\BepInEx\plugins\MergeConsumables" />
+
 		<!-- Copy LICENSE.md -->
 		<Copy SourceFiles="$(SolutionDir)\LICENSE.md"
 			  DestinationFolder="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
@@ -49,11 +57,14 @@
 		<Copy SourceFiles="$(SolutionDir)\LICENSE.md"
 			  DestinationFolder="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
 
+		<Copy SourceFiles="$(SolutionDir)\LICENSE.md"
+			  DestinationFolder="$(PackageRootAddon)\BepInEx\plugins\MergeConsumables" />
+
 		<!-- Create the zip -->
-		<ZipDirectory
-			SourceDirectory="$(PackageRoot)"
-			DestinationFile="$(ZipOutput)"
-			Overwrite="true" />
+		<ZipDirectory SourceDirectory="$(PackageRoot)" DestinationFile="$(ZipOutput)" Overwrite="true" />
+
+		<!-- Create the addon zip -->
+		<ZipDirectory SourceDirectory="$(PackageRootAddon)" DestinationFile="$(ZipOutputAddon)" Overwrite="true" />
 	</Target>
 
 </Project>

@@ -16,7 +16,7 @@ using System;
 
 namespace MergeConsumablesFika;
 
-[BepInPlugin("com.lacyway.mcf", "MergeConsumablesFika", "1.4.0")]
+[BepInPlugin("com.lacyway.mcf", "MergeConsumablesFika", "1.0.0")]
 internal class MCF_Plugin : BaseUnityPlugin
 {
     internal static ManualLogSource MC_Logger;
