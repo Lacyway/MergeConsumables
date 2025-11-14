@@ -403,3 +403,4 @@ FodyWeavers.xsd
 /server/serverMod/dist/src/CustomItemEventRouter.ts
 /server/serverMod/dist/lacyway-mergeconsumables.zip
 /server/serverMod/dist/package.json
+/releaseAddon/*
