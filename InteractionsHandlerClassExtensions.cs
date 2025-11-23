@@ -37,7 +37,7 @@ public static class InteractionsHandlerClassExtensions
         GStruct154<GClass3408> discard = default;
         if (rootComponent.HpResource <= 0)
         {
-            discard = InteractionsHandlerClass.Discard(item, itemController, simulate);
+            discard = InteractionsHandlerClass.Discard(item, itemController, false);
             if (!discard.Succeeded)
             {
                 MC_Plugin.MC_Logger.LogError(discard.Error);

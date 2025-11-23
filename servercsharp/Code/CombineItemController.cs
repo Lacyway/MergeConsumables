@@ -102,8 +102,6 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
             inventoryHelper.RemoveItem(pmcData, body.SourceItem.Value, sessionId);
         }
 
-        await saveServer.SaveProfileAsync(sessionId);
-
         return output;
     }
 }
