@@ -18,6 +18,9 @@ public record CombineItemsModel : BaseInteractionRequestData
     [JsonPropertyName("targetAmount")]
     public float TargetAmount { get; set; }
 
+    [JsonPropertyName("transferAmount")]
+    public float TransferAmount { get; set; }
+
     [JsonPropertyName("type")]
     public string? Type { get; set; }
 }

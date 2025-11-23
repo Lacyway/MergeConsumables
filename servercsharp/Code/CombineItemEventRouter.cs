@@ -10,8 +10,6 @@ namespace MergeConsumables;
 [Injectable]
 public class CombineItemEventRouter(CombineItemCallbacks combineItemCallbacks) : ItemEventRouterDefinition
 {
-    
-
     public override async ValueTask<ItemEventRouterResponse> HandleItemEvent(string url, PmcData pmcData, BaseInteractionRequestData body, MongoId sessionID, ItemEventRouterResponse output)
     {
         return url switch

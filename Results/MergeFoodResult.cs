@@ -94,6 +94,6 @@ public class MergeFoodResult : IExecute, IRaiseEvents, GInterface424, GInterface
     public CombineItemsModel ToCombineItemsModel()
     {
         return new CombineItemsModel(_item.Id, _targetItem.Id,
-            _item.FoodDrinkComponent.HpPercent, _targetItem.FoodDrinkComponent.HpPercent, "food");
+            _item.FoodDrinkComponent.HpPercent, _targetItem.FoodDrinkComponent.HpPercent, Count, "food");
     }
 }

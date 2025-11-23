@@ -93,6 +93,7 @@ public class MergeMedsResult : IExecute, IRaiseEvents, GInterface424, GInterface
 
     public CombineItemsModel ToCombineItemsModel()
     {
-        return new CombineItemsModel(_item.Id, _targetItem.Id, _item.MedKitComponent.HpResource, _targetItem.MedKitComponent.HpResource, "medical");
+        return new CombineItemsModel(_item.Id, _targetItem.Id, _item.MedKitComponent.HpResource,
+            _targetItem.MedKitComponent.HpResource, Count, "medical");
     }
 }

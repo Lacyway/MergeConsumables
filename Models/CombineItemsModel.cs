@@ -4,7 +4,7 @@ using System;
 namespace MergeConsumables.Models;
 
 [Serializable]
-public class CombineItemsModel(string sourceItem, string targetItem, float sourceAmount, float targetAmount, string type) : GClass3471
+public class CombineItemsModel(string sourceItem, string targetItem, float sourceAmount, float targetAmount, float transferAmount, string type) : GClass3471
 {
     public string Action = "Combine";
 
@@ -19,6 +19,9 @@ public class CombineItemsModel(string sourceItem, string targetItem, float sourc
 
     [JsonProperty("targetAmount")]
     public float TargetAmount = targetAmount;
+
+    [JsonProperty("transferAmount")]
+    public float TransferAmount = transferAmount;
 
     [JsonProperty("type")]
     public string Type = type;

@@ -13,7 +13,7 @@ namespace MergeConsumables;
 
 [Injectable]
 public class CombineItemController(ISptLogger<CombineItemController> logger, EventOutputHolder eventOutputHolder,
-    InventoryHelper inventoryHelper, HttpResponseUtil httpResponseUtil)
+    InventoryHelper inventoryHelper, HttpResponseUtil httpResponseUtil, SaveServer saveServer)
 {
     public async ValueTask<ItemEventRouterResponse> CombineItems(PmcData pmcData, CombineItemsModel body, string sessionId)
     {
@@ -46,8 +46,8 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
             case "medical":
                 if (sourceItem.Upd!.MedKit is UpdMedKit sourceMedKit && targetItem.Upd!.MedKit is UpdMedKit targetMedKit)
                 {
-                    sourceMedKit.HpResource = body.SourceAmount;
-                    targetMedKit.HpResource = body.TargetAmount;
+                    sourceMedKit.HpResource -= body.TransferAmount;
+                    targetMedKit.HpResource += body.TransferAmount;
                 }
                 else if (sourceItem.Template == targetItem.Template)
                 {
@@ -56,6 +56,9 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
 
                     var newTargetMedKit = targetItem.Upd!.MedKit ??= new();
                     newTargetMedKit.HpResource = body.TargetAmount;
+
+                    newSourceMedKit.HpResource -= body.TransferAmount;
+                    newTargetMedKit.HpResource += body.TransferAmount;
 
                     logger.Warning("MedKit was missing on source or target item - attempted to resolve with Template");
                 }
@@ -69,8 +72,8 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
             case "food":
                 if (sourceItem.Upd!.FoodDrink is UpdFoodDrink sourceFoodDrink && targetItem.Upd!.FoodDrink is UpdFoodDrink targetFoodDrink)
                 {
-                    sourceFoodDrink.HpPercent = body.SourceAmount;
-                    targetFoodDrink.HpPercent = body.TargetAmount;
+                    sourceFoodDrink.HpPercent -= body.TransferAmount;
+                    targetFoodDrink.HpPercent += body.TransferAmount;
                 }
                 else if (sourceItem.Template == targetItem.Template)
                 {
@@ -80,7 +83,9 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
                     var newTargetFoodDrink = targetItem.Upd!.FoodDrink ??= new();
                     newTargetFoodDrink.HpPercent = body.TargetAmount;
 
-                    logger.Info($"Source: {newSourceFoodDrink.HpPercent}, Target: {newTargetFoodDrink}");
+                    newSourceFoodDrink.HpPercent -= body.TransferAmount;
+                    newTargetFoodDrink.HpPercent += body.TransferAmount;
+
                     logger.Warning("FoodDrink was missing on source or target item - attempted to resolve with Template");
                 }
                 else
@@ -92,10 +97,12 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
                 break;
         }
 
-        if (body.SourceAmount <= 0)
+        if (body.SourceAmount <= body.TransferAmount)
         {
-            inventoryHelper.RemoveItem(pmcData, body.SourceItem.Value, sessionId, output);
+            inventoryHelper.RemoveItem(pmcData, body.SourceItem.Value, sessionId);
         }
+
+        await saveServer.SaveProfileAsync(sessionId);
 
         return output;
     }
