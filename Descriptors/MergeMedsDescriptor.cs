@@ -32,7 +32,8 @@ public class MergeMedsDescriptor : BaseDescriptorClass
             return new WrongTypeError(targetItemResult.Value);
         }
 
-        var result = InteractionsHandlerClassExtensions.MergeMeds(sourceMeds, targetMeds, Count, player.InventoryController, true);
+        var result = InteractionsHandlerClassExtensions.MergeMeds(sourceMeds, targetMeds,
+            Count, player.InventoryController, true);
         if (result.Failed)
         {
             return result.Error;

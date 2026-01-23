@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="fika/MergeConsumablesFika.csproj" />
+  <Project Path="MergeConsumables.csproj" Id="1aa325d3-9fec-4dfd-b65c-a8054365e44a" />
+  <Project Path="servercsharp/Code/MergeConsumablesServer.csproj" />
+</Solution>

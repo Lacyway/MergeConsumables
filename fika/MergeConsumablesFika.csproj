@@ -31,6 +31,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\References\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Sirenix.Serialization">
+      <HintPath>..\References\Sirenix.Serialization.dll</HintPath>
+    </Reference>
     <Reference Include="spt-reflection">
       <HintPath>..\References\spt-reflection.dll</HintPath>
     </Reference>

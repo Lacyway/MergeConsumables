@@ -35,8 +35,14 @@ public static class InteractionsHandlerClassExtensions
         targetComponent.HpResource += transferAmount;
 
         GStruct154<GClass3408> discard = default;
+#if DEBUG
+        MC_Plugin.MC_Logger.LogInfo($"Resource has {rootComponent.HpResource} units left"); 
+#endif
         if (rootComponent.HpResource <= 0)
         {
+#if DEBUG
+            MC_Plugin.MC_Logger.LogInfo("Destroying component due to less than 0"); 
+#endif
             discard = InteractionsHandlerClass.Discard(item, itemController, false);
             if (!discard.Succeeded)
             {
