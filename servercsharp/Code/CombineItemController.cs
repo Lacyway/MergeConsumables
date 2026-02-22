@@ -13,7 +13,7 @@ namespace MergeConsumables;
 
 [Injectable]
 public class CombineItemController(ISptLogger<CombineItemController> logger, EventOutputHolder eventOutputHolder,
-    InventoryHelper inventoryHelper, HttpResponseUtil httpResponseUtil, SaveServer saveServer)
+    InventoryHelper inventoryHelper, HttpResponseUtil httpResponseUtil)
 {
     public async ValueTask<ItemEventRouterResponse> CombineItems(PmcData pmcData, CombineItemsModel body, string sessionId)
     {
