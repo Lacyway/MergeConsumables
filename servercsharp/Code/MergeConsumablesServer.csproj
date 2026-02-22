@@ -13,9 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SPTarkov.Common" Version="4.0.3" />
-    <PackageReference Include="SPTarkov.DI" Version="4.0.3" />
-    <PackageReference Include="SPTarkov.Server.Core" Version="4.0.3" />
+    <PackageReference Include="SPTarkov.Common" Version="4.0.12" />
+    <PackageReference Include="SPTarkov.DI" Version="4.0.12" />
+    <PackageReference Include="SPTarkov.Server.Core" Version="4.0.12" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,24 +41,18 @@
 		<MakeDir Directories="$(PackageRootAddon)\BepInEx\plugins\MergeConsumables" />
 
 		<!-- Copy DLLs -->
-		<Copy SourceFiles="$(SolutionDir)bin\Release\MergeConsumables.dll"
-			  DestinationFolder="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
+		<Copy SourceFiles="$(SolutionDir)bin\Release\MergeConsumables.dll" DestinationFolder="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
 
-		<Copy SourceFiles="$(ProjectDir)\bin\$(Configuration)\MergeConsumablesServer\MergeConsumablesServer.dll"
-			  DestinationFolder="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
+		<Copy SourceFiles="$(ProjectDir)\bin\$(Configuration)\MergeConsumablesServer\MergeConsumablesServer.dll" DestinationFolder="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
 
-		<Copy SourceFiles="$(SolutionDir)fika\bin\$(Configuration)\netstandard2.1\MergeConsumablesFika.dll"
-			  DestinationFolder="$(PackageRootAddon)\BepInEx\plugins\MergeConsumables" />
+		<Copy SourceFiles="$(SolutionDir)fika\bin\$(Configuration)\netstandard2.1\MergeConsumablesFika.dll" DestinationFolder="$(PackageRootAddon)\BepInEx\plugins\MergeConsumables" />
 
 		<!-- Copy LICENSE.md -->
-		<Copy SourceFiles="$(SolutionDir)\LICENSE.md"
-			  DestinationFolder="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
+		<Copy SourceFiles="$(SolutionDir)\LICENSE.md" DestinationFolder="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
 
-		<Copy SourceFiles="$(SolutionDir)\LICENSE.md"
-			  DestinationFolder="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
+		<Copy SourceFiles="$(SolutionDir)\LICENSE.md" DestinationFolder="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
 
-		<Copy SourceFiles="$(SolutionDir)\LICENSE.md"
-			  DestinationFolder="$(PackageRootAddon)\BepInEx\plugins\MergeConsumables" />
+		<Copy SourceFiles="$(SolutionDir)\LICENSE.md" DestinationFolder="$(PackageRootAddon)\BepInEx\plugins\MergeConsumables" />
 
 		<!-- Create the zip -->
 		<ZipDirectory SourceDirectory="$(PackageRoot)" DestinationFile="$(ZipOutput)" Overwrite="true" />
