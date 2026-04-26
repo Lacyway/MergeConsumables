@@ -28,12 +28,8 @@ public class ClientInventoryController_RunClientOperation_Patch : ModulePatch
                 return false;
             }
 
-            ClientInventoryController.ClientInventoryOperationHandler handler = new()
-            {
-                Operation = operation,
-                Callback = callback,
-                InventoryController = __instance
-            };
+            var handler = __instance.GetHandler();
+            handler.Set(__instance, operation, callback);
 
             var operationNum = __instance.AddOperationCallback(operation, handler.ReceiveStatusFromServer);
             var mergePacket = new MergePacket()
@@ -56,12 +52,8 @@ public class ClientInventoryController_RunClientOperation_Patch : ModulePatch
                 return false;
             }
 
-            ClientInventoryController.ClientInventoryOperationHandler handler = new()
-            {
-                Operation = operation,
-                Callback = callback,
-                InventoryController = __instance
-            };
+            var handler = __instance.GetHandler();
+            handler.Set(__instance, operation, callback);
 
             var operationNum = __instance.AddOperationCallback(operation, handler.ReceiveStatusFromServer);
             var mergePacket = new MergePacket()

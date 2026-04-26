@@ -5,7 +5,6 @@ using Fika.Core.Networking.LiteNetLib;
 using MergeConsumables.Operations;
 using SPT.Reflection.Patching;
 using System.Reflection;
-using static Fika.Core.Main.HostClasses.FikaHostInventoryController;
 
 namespace MergeConsumablesFika.Patches;
 
@@ -13,54 +12,70 @@ public class HostInventoryController_RunHostOperation_Patch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return typeof(FikaHostInventoryController)
+        return typeof(HostInventoryController)
             .GetMethod("RunHostOperation", BindingFlags.NonPublic | BindingFlags.Instance);
     }
 
     [PatchPrefix]
-    public static bool Prefix(FikaHostInventoryController __instance, BaseInventoryOperationClass operation, Callback callback)
+    public static bool Prefix(HostInventoryController __instance, BaseInventoryOperationClass operation, Callback callback)
     {
         if (operation is MergeFoodOperation mergeFoodOperation)
         {
-            HostInventoryOperationHandler handler = new(__instance, operation, callback);
-            if (__instance.vmethod_0(handler.operation))
+            var handler = __instance.GetHandler();
+            handler.Set(__instance, mergeFoodOperation, callback);
+            try
             {
-                handler.operation.method_1(handler.HandleResult);
-                var mergePacket = new MergePacket()
+                if (__instance.vmethod_0(handler.Operation))
                 {
-                    NetId = __instance.FikaPlayer.NetId,
-                    CallbackId = operation.Id,
-                    Type = 0,
-                    MergeFoodOperation = mergeFoodOperation
-                };
-                Singleton<FikaServer>.Instance.SendData(ref mergePacket, DeliveryMethod.ReliableOrdered, true);
+                    handler.Operation.method_1(handler.HandleResult);
+                    var mergePacket = new MergePacket()
+                    {
+                        NetId = __instance.FikaPlayer.NetId,
+                        CallbackId = operation.Id,
+                        Type = 0,
+                        MergeFoodOperation = mergeFoodOperation
+                    };
+                    Singleton<FikaServer>.Instance.SendData(ref mergePacket, DeliveryMethod.ReliableOrdered, true);
+                    return false;
+                }
+
+                handler.Operation.Dispose();
+                handler.Callback?.Fail($"Can't execute {handler.Operation}", 1);
                 return false;
             }
-
-            handler.operation.Dispose();
-            handler.callback?.Fail($"Can't execute {handler.operation}", 1);
-            return false;
+            finally
+            {
+                __instance.ReturnHandler(handler);
+            }
         }
 
         if (operation is MergeMedsOperation mergeMedsOperation)
         {
-            HostInventoryOperationHandler handler = new(__instance, operation, callback);
-            if (__instance.vmethod_0(handler.operation))
+            var handler = __instance.GetHandler();
+            handler.Set(__instance, mergeMedsOperation, callback);
+            try
             {
-                handler.operation.method_1(handler.HandleResult);
-                var mergePacket = new MergePacket()
+                if (__instance.vmethod_0(handler.Operation))
                 {
-                    NetId = __instance.FikaPlayer.NetId,
-                    CallbackId = operation.Id,
-                    Type = 1,
-                    MergeMedsOperation = mergeMedsOperation
-                };
-                Singleton<FikaServer>.Instance.SendData(ref mergePacket, DeliveryMethod.ReliableOrdered, true);
-                return false;
-            }
+                    handler.Operation.method_1(handler.HandleResult);
+                    var mergePacket = new MergePacket()
+                    {
+                        NetId = __instance.FikaPlayer.NetId,
+                        CallbackId = operation.Id,
+                        Type = 1,
+                        MergeMedsOperation = mergeMedsOperation
+                    };
+                    Singleton<FikaServer>.Instance.SendData(ref mergePacket, DeliveryMethod.ReliableOrdered, true);
+                    return false;
+                }
 
-            handler.operation.Dispose();
-            handler.callback?.Fail($"Can't execute {handler.operation}", 1);
+                handler.Operation.Dispose();
+                handler.Callback?.Fail($"Can't execute {handler.Operation}", 1);
+            }
+            finally
+            {
+                __instance.ReturnHandler(handler);
+            }
         }
 
         return true;

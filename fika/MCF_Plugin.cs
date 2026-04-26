@@ -2,6 +2,8 @@
 using BepInEx.Logging;
 using Comfort.Common;
 using EFT;
+using EFT.GameTriggers;
+
 #if DEBUG
 using EFT.UI;
 #endif
@@ -115,7 +117,8 @@ internal class MCF_Plugin : BaseUnityPlugin
                         return;
                     }
 
-                    FikaServer.InventoryOperationHandler handler = new(result, packet.CallbackId, packet.NetId, peer, server);
+                    var handler = server.GetHandler();
+                    handler.Set(result, packet.CallbackId, packet.NetId, peer, server);
                     server.SendGenericPacketToPeer(EGenericSubPacketType.OperationCallback,
                             OperationCallbackPacket.FromValue(packet.NetId, packet.CallbackId, EOperationStatus.Started), peer);
 
@@ -130,7 +133,7 @@ internal class MCF_Plugin : BaseUnityPlugin
                         packet.MergeMedsDescriptor = null;
                     }
                     server.SendData(ref packet, DeliveryMethod.ReliableOrdered, peer);
-                    handler.OperationResult.Value.method_1(handler.HandleResult);
+                    handler.OperationResult.Value.method_1(handler.HandleResultDelegate);
                 }
                 else
                 {
