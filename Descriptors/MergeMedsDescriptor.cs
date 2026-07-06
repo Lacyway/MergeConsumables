@@ -4,7 +4,7 @@ using MergeConsumables.Operations;
 
 namespace MergeConsumables.Descriptors;
 
-public class MergeMedsDescriptor : BaseDescriptorClass
+public sealed class MergeMedsDescriptor : BaseDescriptorClass
 {
     public string SourceItem;
     public string TargetItem;

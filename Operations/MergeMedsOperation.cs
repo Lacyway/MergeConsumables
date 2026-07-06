@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MergeConsumables.Operations;
 
-public class MergeMedsOperation : GClass3475<MergeMedsResult>
+public sealed class MergeMedsOperation : GClass3475<MergeMedsResult>
 {
     public Item SourceItem;
     public ItemAddress SourceAddress;
