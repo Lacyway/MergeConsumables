@@ -38,7 +38,7 @@ public static class InteractionsHandlerClassExtensions
 #if DEBUG
         MC_Plugin.MC_Logger.LogInfo($"Resource has {rootComponent.HpResource} units left"); 
 #endif
-        if (rootComponent.HpResource <= 0)
+        if (rootComponent.HpResource < 1f)
         {
 #if DEBUG
             MC_Plugin.MC_Logger.LogInfo("Destroying component due to less than 0"); 
@@ -46,6 +46,9 @@ public static class InteractionsHandlerClassExtensions
             discard = InteractionsHandlerClass.Discard(item, itemController, false);
             if (!discard.Succeeded)
             {
+                rootComponent.HpResource = originalRootHp;
+                targetComponent.HpResource = originalTargetHp;
+
                 MC_Plugin.MC_Logger.LogError(discard.Error);
                 return discard.Error;
             }
@@ -92,11 +95,14 @@ public static class InteractionsHandlerClassExtensions
         targetComponent.HpPercent += transferAmount;
 
         GStruct154<GClass3408> discard = default;
-        if (rootComponent.HpPercent <= 0)
+        if (rootComponent.HpPercent < 1f)
         {
             discard = InteractionsHandlerClass.Discard(item, itemController, false);
             if (!discard.Succeeded)
             {
+                rootComponent.HpPercent = originalRootHp;
+                targetComponent.HpPercent = originalTargetHp;
+
                 MC_Plugin.MC_Logger.LogError(discard.Error);
                 return discard.Error;
             }
