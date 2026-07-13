@@ -41,6 +41,8 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
         sourceItem.AddUpd();
         targetItem.AddUpd();
 
+        var noUses = false;
+
         switch (body.Type)
         {
             case "medical":
@@ -48,6 +50,11 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
                 {
                     sourceMedKit.HpResource -= body.TransferAmount;
                     targetMedKit.HpResource += body.TransferAmount;
+
+                    if (sourceMedKit.HpResource <= 1d)
+                    {
+                        noUses = true;
+                    }
                 }
                 else if (sourceItem.Template == targetItem.Template)
                 {
@@ -59,6 +66,11 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
 
                     newSourceMedKit.HpResource -= body.TransferAmount;
                     newTargetMedKit.HpResource += body.TransferAmount;
+
+                    if (newSourceMedKit.HpResource <= 1d)
+                    {
+                        noUses = true;
+                    }
 
                     logger.Warning("MedKit was missing on source or target item - attempted to resolve with Template");
                 }
@@ -74,6 +86,11 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
                 {
                     sourceFoodDrink.HpPercent -= body.TransferAmount;
                     targetFoodDrink.HpPercent += body.TransferAmount;
+
+                    if (sourceFoodDrink.HpPercent <= 1d)
+                    {
+                        noUses = true;
+                    }
                 }
                 else if (sourceItem.Template == targetItem.Template)
                 {
@@ -86,6 +103,11 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
                     newSourceFoodDrink.HpPercent -= body.TransferAmount;
                     newTargetFoodDrink.HpPercent += body.TransferAmount;
 
+                    if (newSourceFoodDrink.HpPercent <= 1d)
+                    {
+                        noUses = true;
+                    }
+
                     logger.Warning("FoodDrink was missing on source or target item - attempted to resolve with Template");
                 }
                 else
@@ -97,7 +119,7 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
                 break;
         }
 
-        if (body.SourceAmount <= body.TransferAmount)
+        if (body.SourceAmount <= body.TransferAmount || noUses)
         {
             inventoryHelper.RemoveItem(pmcData, body.SourceItem.Value, sessionId);
         }
