@@ -51,7 +51,7 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
                     sourceMedKit.HpResource -= body.TransferAmount;
                     targetMedKit.HpResource += body.TransferAmount;
 
-                    if (sourceMedKit.HpResource <= 1d)
+                    if (sourceMedKit.HpResource < 1d)
                     {
                         noUses = true;
                     }
@@ -67,7 +67,7 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
                     newSourceMedKit.HpResource -= body.TransferAmount;
                     newTargetMedKit.HpResource += body.TransferAmount;
 
-                    if (newSourceMedKit.HpResource <= 1d)
+                    if (newSourceMedKit.HpResource < 1d)
                     {
                         noUses = true;
                     }
@@ -87,7 +87,7 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
                     sourceFoodDrink.HpPercent -= body.TransferAmount;
                     targetFoodDrink.HpPercent += body.TransferAmount;
 
-                    if (sourceFoodDrink.HpPercent <= 1d)
+                    if (sourceFoodDrink.HpPercent < 1d)
                     {
                         noUses = true;
                     }
@@ -103,7 +103,7 @@ public class CombineItemController(ISptLogger<CombineItemController> logger, Eve
                     newSourceFoodDrink.HpPercent -= body.TransferAmount;
                     newTargetFoodDrink.HpPercent += body.TransferAmount;
 
-                    if (newSourceFoodDrink.HpPercent <= 1d)
+                    if (newSourceFoodDrink.HpPercent < 1d)
                     {
                         noUses = true;
                     }
