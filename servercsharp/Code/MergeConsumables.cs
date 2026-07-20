@@ -7,7 +7,7 @@ using SPTarkov.Server.Core.Utils.Json.Converters;
 
 namespace MergeConsumables;
 
-public record ModMetadata : AbstractModMetadata
+public sealed record ModMetadata : AbstractModMetadata
 {
     public override string ModGuid { get; init; } = "com.lacyway.mc";
     public override string Name { get; init; } = "MergeConsumablesServer";
@@ -23,7 +23,7 @@ public record ModMetadata : AbstractModMetadata
 }
 
 [Injectable(TypePriority = OnLoadOrder.PostDBModLoader + 6000)]
-public class MergeConsumables(ISptLogger<MergeConsumables> logger, JsonUtil jsonUtil) : IOnLoad
+public sealed class MergeConsumables(ISptLogger<MergeConsumables> logger, JsonUtil jsonUtil) : IOnLoad
 {
     public const string CombineRouter = "Combine";
 

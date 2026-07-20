@@ -4,7 +4,7 @@ using System;
 namespace MergeConsumables.Models;
 
 [Serializable]
-public class CombineItemsModel(string sourceItem, string targetItem, float sourceAmount, float targetAmount, float transferAmount, string type) : GClass3471
+public sealed class CombineItemsModel(string sourceItem, string targetItem, float sourceAmount, float targetAmount, float transferAmount, string type) : GClass3471
 {
     public string Action = "Combine";
 

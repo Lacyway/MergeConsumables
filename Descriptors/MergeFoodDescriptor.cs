@@ -4,7 +4,7 @@ using MergeConsumables.Operations;
 
 namespace MergeConsumables.Descriptors;
 
-public class MergeFoodDescriptor : BaseDescriptorClass
+public sealed class MergeFoodDescriptor : BaseDescriptorClass
 {
     public string SourceItem;
     public string TargetItem;

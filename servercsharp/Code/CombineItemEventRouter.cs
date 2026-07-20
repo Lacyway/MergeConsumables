@@ -8,7 +8,7 @@ using SPTarkov.Server.Core.Models.Eft.ItemEvent;
 namespace MergeConsumables;
 
 [Injectable]
-public class CombineItemEventRouter(CombineItemCallbacks combineItemCallbacks) : ItemEventRouterDefinition
+public sealed class CombineItemEventRouter(CombineItemCallbacks combineItemCallbacks) : ItemEventRouterDefinition
 {
     public override async ValueTask<ItemEventRouterResponse> HandleItemEvent(string url, PmcData pmcData, BaseInteractionRequestData body, MongoId sessionID, ItemEventRouterResponse output)
     {

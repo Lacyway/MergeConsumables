@@ -7,11 +7,11 @@ using MergeConsumables.Patches;
 namespace MergeConsumables;
 
 [BepInPlugin("com.lacyway.mc", "MergeConsumables", "1.5.5")]
-internal class MC_Plugin : BaseUnityPlugin
+internal sealed class MC_Plugin : BaseUnityPlugin
 {
     internal static ManualLogSource MC_Logger;
 
-    protected void Awake()
+    private void Awake()
     {
         MC_Logger = Logger;
 

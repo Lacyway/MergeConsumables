@@ -3,7 +3,7 @@ using EFT.InventoryLogic;
 
 namespace MergeConsumables.Errors;
 
-public class WrongTypeError(Item item) : Error
+public sealed class WrongTypeError(Item item) : Error
 {
     public Item Item = item;
 

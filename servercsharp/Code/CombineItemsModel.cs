@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace MergeConsumables;
 
-public record CombineItemsModel : BaseInteractionRequestData
+public sealed record CombineItemsModel : BaseInteractionRequestData
 {
     [JsonPropertyName("sourceItem")]
     public MongoId? SourceItem { get; set; }

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace MergeConsumables.Patches;
 
-public class ExecutePossibleAction_Patch : ModulePatch
+public sealed class ExecutePossibleAction_Patch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {

@@ -6,13 +6,12 @@ using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Eft.ItemEvent;
 using SPTarkov.Server.Core.Models.Utils;
 using SPTarkov.Server.Core.Routers;
-using SPTarkov.Server.Core.Servers;
 using SPTarkov.Server.Core.Utils;
 
 namespace MergeConsumables;
 
 [Injectable]
-public class CombineItemController(ISptLogger<CombineItemController> logger, EventOutputHolder eventOutputHolder,
+public sealed class CombineItemController(ISptLogger<CombineItemController> logger, EventOutputHolder eventOutputHolder,
     InventoryHelper inventoryHelper, HttpResponseUtil httpResponseUtil)
 {
     public async ValueTask<ItemEventRouterResponse> CombineItems(PmcData pmcData, CombineItemsModel body, string sessionId)
