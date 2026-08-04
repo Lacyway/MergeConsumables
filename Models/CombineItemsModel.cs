@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using EFT.InventoryLogic.Operations;
+using Newtonsoft.Json;
 
 namespace MergeConsumables.Models;
 
 [Serializable]
-public sealed class CombineItemsModel(string sourceItem, string targetItem, float sourceAmount, float targetAmount, float transferAmount, string type) : GClass3471
+public sealed class CombineItemsModel(string sourceItem, string targetItem, float sourceAmount, float targetAmount, float transferAmount, string type) : BaseInventoryCommand
 {
     public string Action = "Combine";
 

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>MergeConsumables</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -13,9 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SPTarkov.Common" Version="4.0.12" />
-    <PackageReference Include="SPTarkov.DI" Version="4.0.12" />
-    <PackageReference Include="SPTarkov.Server.Core" Version="4.0.12" />
+    <PackageReference Include="SPTarkov.Common" Version="4.1.1" />
+    <PackageReference Include="SPTarkov.DI" Version="4.1.1" />
+    <PackageReference Include="SPTarkov.Server.Core" Version="4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,7 +35,7 @@
 		<RemoveDir Directories="$(PackageRootAddon)" />
 
 		<!-- Recreate structure -->
-		<MakeDir Directories="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
+		<MakeDir Directories="$(PackageRoot)\SPT_Runtime\user\mods\MergeConsumablesServer" />
 		<MakeDir Directories="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
 
 		<MakeDir Directories="$(PackageRootAddon)\BepInEx\plugins\MergeConsumables" />
@@ -43,12 +43,12 @@
 		<!-- Copy DLLs -->
 		<Copy SourceFiles="$(SolutionDir)bin\Release\MergeConsumables.dll" DestinationFolder="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
 
-		<Copy SourceFiles="$(ProjectDir)\bin\$(Configuration)\MergeConsumablesServer\MergeConsumablesServer.dll" DestinationFolder="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
+		<Copy SourceFiles="$(ProjectDir)\bin\$(Configuration)\MergeConsumablesServer\MergeConsumablesServer.dll" DestinationFolder="$(PackageRoot)\SPT_Runtime\user\mods\MergeConsumablesServer" />
 
 		<Copy SourceFiles="$(SolutionDir)fika\bin\$(Configuration)\netstandard2.1\MergeConsumablesFika.dll" DestinationFolder="$(PackageRootAddon)\BepInEx\plugins\MergeConsumables" />
 
 		<!-- Copy LICENSE.md -->
-		<Copy SourceFiles="$(SolutionDir)\LICENSE.md" DestinationFolder="$(PackageRoot)\SPT\user\mods\MergeConsumablesServer" />
+		<Copy SourceFiles="$(SolutionDir)\LICENSE.md" DestinationFolder="$(PackageRoot)\SPT_Runtime\user\mods\MergeConsumablesServer" />
 
 		<Copy SourceFiles="$(SolutionDir)\LICENSE.md" DestinationFolder="$(PackageRoot)\BepInEx\plugins\MergeConsumables" />
 

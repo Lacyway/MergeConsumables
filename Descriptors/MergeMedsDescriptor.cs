@@ -1,23 +1,26 @@
-﻿using EFT;
+﻿using Diz.LanguageExtensions;
+using EFT;
+using EFT.InventoryLogic;
+using EFT.InventoryLogic.Operations;
 using MergeConsumables.Errors;
 using MergeConsumables.Operations;
 
 namespace MergeConsumables.Descriptors;
 
-public sealed class MergeMedsDescriptor : BaseDescriptorClass
+public sealed class MergeMedsDescriptor : InventoryOperationDescriptor
 {
     public string SourceItem;
     public string TargetItem;
     public float Count;
 
-    public override GStruct152<BaseInventoryOperationClass> ToInventoryOperation(IPlayer player)
+    public override OperationCreationResult<AbstractOperation> ToInventoryOperation(IPlayer player)
     {
         var sourceItemResult = player.FindItemById(SourceItem);
         if (sourceItemResult.Failed)
         {
             return sourceItemResult.Error;
         }
-        if (sourceItemResult.Value is not MedsItemClass sourceMeds)
+        if (sourceItemResult.Value is not Meds sourceMeds)
         {
             return new WrongTypeError(sourceItemResult.Value);
         }
@@ -27,12 +30,12 @@ public sealed class MergeMedsDescriptor : BaseDescriptorClass
         {
             return targetItemResult.Error;
         }
-        if (targetItemResult.Value is not MedsItemClass targetMeds)
+        if (targetItemResult.Value is not Meds targetMeds)
         {
             return new WrongTypeError(targetItemResult.Value);
         }
 
-        var result = InteractionsHandlerClassExtensions.MergeMeds(sourceMeds, targetMeds,
+        var result = ItemManipulatorExtensions.MergeMeds(sourceMeds, targetMeds,
             Count, player.InventoryController, true);
         if (result.Failed)
         {

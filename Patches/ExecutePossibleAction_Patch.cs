@@ -1,4 +1,5 @@
-﻿using EFT.InventoryLogic;
+﻿using Diz.LanguageExtensions;
+using EFT.InventoryLogic;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
@@ -9,28 +10,28 @@ public sealed class ExecutePossibleAction_Patch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(TraderControllerClass), nameof(TraderControllerClass.ExecutePossibleAction),
-            [typeof(ItemContextAbstractClass), typeof(Item), typeof(bool), typeof(bool)]);
+        return AccessTools.Method(typeof(ItemController), nameof(ItemController.ExecutePossibleAction),
+            [typeof(ItemContext), typeof(Item), typeof(bool), typeof(bool)]);
     }
 
     [PatchPrefix]
-    public static bool Prefix(TraderControllerClass __instance, ItemContextAbstractClass itemContext, Item targetItem, bool simulate, ref GStruct153 __result)
+    public static bool Prefix(ItemController __instance, ItemContext itemContext, Item targetItem, bool simulate, ref OperationResult __result)
     {
-        if (itemContext.Item is MedsItemClass rootMedItem
+        if (itemContext.Item is Meds rootMedItem
             && rootMedItem.MedKitComponent != null
-            && targetItem is MedsItemClass targetMedItem
+            && targetItem is Meds targetMedItem
             && targetMedItem.MedKitComponent != null)
         {
-            __result = InteractionsHandlerClassExtensions.MergeMeds(rootMedItem, targetMedItem, 0, __instance, simulate);
+            __result = ItemManipulatorExtensions.MergeMeds(rootMedItem, targetMedItem, 0, __instance, simulate);
             return false;
         }
 
-        if (itemContext.Item is FoodDrinkItemClass rootFoodItem
+        if (itemContext.Item is Food rootFoodItem
             && rootFoodItem.FoodDrinkComponent != null
-            && targetItem is FoodDrinkItemClass targetFoodItem
+            && targetItem is Food targetFoodItem
             && targetFoodItem.FoodDrinkComponent != null)
         {
-            __result = InteractionsHandlerClassExtensions.MergeFood(rootFoodItem, targetFoodItem, 0, __instance, simulate);
+            __result = ItemManipulatorExtensions.MergeFood(rootFoodItem, targetFoodItem, 0, __instance, simulate);
             return false;
         }
 

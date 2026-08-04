@@ -7,8 +7,8 @@ namespace MergeConsumables;
 [Injectable]
 public sealed class CombineItemCallbacks(CombineItemController combineItemController)
 {
-    public async ValueTask<ItemEventRouterResponse> HandleCombineItems(PmcData pmcData, CombineItemsModel body, string sessionID)
+    public async ValueTask<ItemEventRouterResponse> HandleCombineItems(PmcData pmcData, CombineItemsModel body, string sessionID, CancellationToken cancellationToken)
     {
-        return await combineItemController.CombineItems(pmcData, body, sessionID);
+        return await combineItemController.CombineItems(pmcData, body, sessionID, cancellationToken);
     }
 }

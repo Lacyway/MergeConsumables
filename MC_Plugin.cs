@@ -1,12 +1,13 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using EFT.BinarySerialization;
 using HarmonyLib;
 using MergeConsumables.Descriptors;
 using MergeConsumables.Patches;
 
 namespace MergeConsumables;
 
-[BepInPlugin("com.lacyway.mc", "MergeConsumables", "1.5.5")]
+[BepInPlugin("com.lacyway.mc", "MergeConsumables", "1.6.0")]
 internal sealed class MC_Plugin : BaseUnityPlugin
 {
     internal static ManualLogSource MC_Logger;
@@ -20,6 +21,6 @@ internal sealed class MC_Plugin : BaseUnityPlugin
         new ExecutePossibleAction_Patch().Enable();
         var harmony = new Harmony("com.lacyway.mc");
         harmony.PatchAll();
-        GClass3695.List_0.AddRange([typeof(MergeFoodDescriptor), typeof(MergeMedsDescriptor)]);
+        BinarySerializationMirrorExtensions._types.AddRange([typeof(MergeFoodDescriptor), typeof(MergeMedsDescriptor)]);
     }
 }

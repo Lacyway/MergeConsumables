@@ -1,12 +1,14 @@
-﻿using Comfort.Common;
+﻿using System.Threading.Tasks;
+using Comfort.Common;
+using EFT;
 using EFT.InventoryLogic;
+using EFT.InventoryLogic.Operations;
 using MergeConsumables.Descriptors;
 using MergeConsumables.Results;
-using System.Threading.Tasks;
 
 namespace MergeConsumables.Operations;
 
-public sealed class MergeFoodOperation : GClass3475<MergeFoodResult>
+public sealed class MergeFoodOperation : AbstractAsyncOperation<MergeFoodResult>
 {
     public Item SourceItem;
     public ItemAddress SourceAddress;
@@ -15,7 +17,7 @@ public sealed class MergeFoodOperation : GClass3475<MergeFoodResult>
     public float Count;
     public MergeFoodResult Result;
 
-    public MergeFoodOperation(ushort id, TraderControllerClass controller, MergeFoodResult result) : base(id, controller, result)
+    public MergeFoodOperation(ushort id, ItemController controller, MergeFoodResult result) : base(id, controller, result)
     {
         SourceItem = result.Item;
         SourceAddress = SourceItem.Parent;
@@ -26,15 +28,15 @@ public sealed class MergeFoodOperation : GClass3475<MergeFoodResult>
 
     public override async Task<IResult> ExecuteInternal()
     {
-        await method_3(SourceItem, SourceAddress, TargetAddress, new GClass3397(SourceItem, this));
+        await OutProcess(SourceItem, SourceAddress, TargetAddress, new AddSuboperation(SourceItem, this));
         Execute();
-        await method_4(TargetItem, TargetAddress, new GClass3398(TargetItem, TargetAddress, this));
-        return method_5();
+        await InProcess(TargetItem, TargetAddress, new RemoveSuboperation(TargetItem, TargetAddress, this));
+        return FinishExecution();
     }
 
-    public override GClass3471 ToBaseInventoryCommand(string ownerId)
+    public override BaseInventoryCommand ToBaseInventoryCommand(string ownerId)
     {
-        return Gstruct156_0.Value.ToCombineItemsModel();
+        return _executableResult.Value.ToCombineItemsModel();
     }
 
     public override string ToString()
@@ -42,7 +44,7 @@ public sealed class MergeFoodOperation : GClass3475<MergeFoodResult>
         return $"Merging {SourceItem.ToFullString()} with {TargetItem.ToFullString()}, Count: {Count}";
     }
 
-    public override BaseDescriptorClass ToDescriptor()
+    public override InventoryOperationDescriptor ToDescriptor()
     {
         return new MergeFoodDescriptor()
         {

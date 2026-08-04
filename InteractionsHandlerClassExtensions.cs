@@ -1,25 +1,27 @@
-﻿using MergeConsumables.Results;
+﻿using Diz.LanguageExtensions;
+using EFT.InventoryLogic;
+using MergeConsumables.Results;
 using UnityEngine;
 
 namespace MergeConsumables;
 
-public static class InteractionsHandlerClassExtensions
+public static class ItemManipulatorExtensions
 {
-    public static GStruct154<MergeMedsResult> MergeMeds(MedsItemClass item, MedsItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
+    public static OperationResult<MergeMedsResult> MergeMeds(Meds item, Meds targetItem, float count, ItemController itemController, bool simulate)
     {
         if (item.TemplateId != targetItem.TemplateId)
         {
-            return new GClass1522("Not same item");
+            return new StringError("Not same item");
         }
 
         if (item.Id == targetItem.Id)
         {
-            return new GClass1522("Same item?");
+            return new StringError("Same item?");
         }
 
         if (targetItem.MedKitComponent.HpResource >= targetItem.MedKitComponent.MaxHpResource)
         {
-            return new GClass1522("Already max");
+            return new StringError("Already max");
         }
 
         var rootComponent = item.MedKitComponent;
@@ -34,7 +36,7 @@ public static class InteractionsHandlerClassExtensions
         rootComponent.HpResource -= transferAmount;
         targetComponent.HpResource += transferAmount;
 
-        GStruct154<GClass3408> discard = default;
+        OperationResult<DiscardResult> discard = default;
 #if DEBUG
         MC_Plugin.MC_Logger.LogInfo($"Resource has {rootComponent.HpResource} units left"); 
 #endif
@@ -43,7 +45,7 @@ public static class InteractionsHandlerClassExtensions
 #if DEBUG
             MC_Plugin.MC_Logger.LogInfo("Destroying component due to less than 0"); 
 #endif
-            discard = InteractionsHandlerClass.Discard(item, itemController, false);
+            discard = ItemManipulator.Discard(item, itemController, false);
             if (!discard.Succeeded)
             {
                 rootComponent.HpResource = originalRootHp;
@@ -65,21 +67,21 @@ public static class InteractionsHandlerClassExtensions
         return new MergeMedsResult(item, item.CurrentAddress, targetItem, transferAmount, discard, itemController);
     }
 
-    public static GStruct154<MergeFoodResult> MergeFood(FoodDrinkItemClass item, FoodDrinkItemClass targetItem, float count, TraderControllerClass itemController, bool simulate)
+    public static OperationResult<MergeFoodResult> MergeFood(Food item, Food targetItem, float count, ItemController itemController, bool simulate)
     {
         if (item.TemplateId != targetItem.TemplateId)
         {
-            return new GClass1522("Not same item");
+            return new StringError("Not same item");
         }
 
         if (item.Id == targetItem.Id)
         {
-            return new GClass1522("Same item?");
+            return new StringError("Same item?");
         }
 
         if (targetItem.FoodDrinkComponent.HpPercent >= targetItem.FoodDrinkComponent.MaxResource)
         {
-            return new GClass1522("Already max");
+            return new StringError("Already max");
         }
 
         var rootComponent = item.FoodDrinkComponent;
@@ -94,10 +96,10 @@ public static class InteractionsHandlerClassExtensions
         rootComponent.HpPercent -= transferAmount;
         targetComponent.HpPercent += transferAmount;
 
-        GStruct154<GClass3408> discard = default;
+        OperationResult<DiscardResult> discard = default;
         if (rootComponent.HpPercent < 1f)
         {
-            discard = InteractionsHandlerClass.Discard(item, itemController, false);
+            discard = ItemManipulator.Discard(item, itemController, false);
             if (!discard.Succeeded)
             {
                 rootComponent.HpPercent = originalRootHp;

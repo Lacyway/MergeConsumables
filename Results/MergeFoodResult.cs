@@ -1,11 +1,13 @@
-﻿using EFT.InventoryLogic;
+﻿using Diz.LanguageExtensions;
+using EFT;
+using EFT.InventoryLogic;
 using MergeConsumables.Models;
 
 namespace MergeConsumables.Results;
 
-public class MergeFoodResult : IExecute, IRaiseEvents, GInterface424, GInterface429, GInterface433
+public class MergeFoodResult : ISyncOperation, IOperationResult, IItemOperationResult, ITransferOrMergeResult, ISyncOperationResult
 {
-    public MergeFoodResult(FoodDrinkItemClass item, ItemAddress from, FoodDrinkItemClass targetItem, float count, GStruct154<GClass3408> discard, TraderControllerClass itemController)
+    public MergeFoodResult(Food item, ItemAddress from, Food targetItem, float count, OperationResult<DiscardResult> discard, ItemController itemController)
     {
         _item = item;
         From = from;
@@ -43,13 +45,13 @@ public class MergeFoodResult : IExecute, IRaiseEvents, GInterface424, GInterface
 
     public float Count { get; }
 
-    public TraderControllerClass ItemController { get; }
+    public ItemController ItemController { get; }
 
-    private readonly FoodDrinkItemClass _item;
-    private readonly FoodDrinkItemClass _targetItem;
-    private readonly GStruct154<GClass3408> _discard;
+    private readonly Food _item;
+    private readonly Food _targetItem;
+    private readonly OperationResult<DiscardResult> _discard;
 
-    public bool CanExecute(TraderControllerClass itemController)
+    public bool CanExecute(ItemController itemController)
     {
         if (_item != null && _targetItem != null)
         {
@@ -62,9 +64,9 @@ public class MergeFoodResult : IExecute, IRaiseEvents, GInterface424, GInterface
         return false;
     }
 
-    public GStruct153 Execute()
+    public OperationResult Execute()
     {
-        return InteractionsHandlerClassExtensions.MergeFood(_item, _targetItem, Count, ItemController, false);
+        return ItemManipulatorExtensions.MergeFood(_item, _targetItem, Count, ItemController, false);
     }
 
     public void RaiseEvents(IItemOwner controller, CommandStatus status)
@@ -88,7 +90,7 @@ public class MergeFoodResult : IExecute, IRaiseEvents, GInterface424, GInterface
             _discard.Value.RollBack();
         }
 
-        InteractionsHandlerClassExtensions.MergeFood(_targetItem, _item, Count, ItemController, false);
+        ItemManipulatorExtensions.MergeFood(_targetItem, _item, Count, ItemController, false);
     }
 
     public CombineItemsModel ToCombineItemsModel()

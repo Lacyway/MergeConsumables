@@ -1,10 +1,10 @@
-﻿using SPTarkov.DI.Annotations;
+﻿using SPTarkov.Common.Models.Logging;
+using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.Extensions;
-using SPTarkov.Server.Core.Helpers;
+using SPTarkov.Server.Core.Helpers.Profile;
 using SPTarkov.Server.Core.Models.Eft.Common;
 using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Eft.ItemEvent;
-using SPTarkov.Server.Core.Models.Utils;
 using SPTarkov.Server.Core.Routers;
 using SPTarkov.Server.Core.Utils;
 
@@ -14,7 +14,7 @@ namespace MergeConsumables;
 public sealed class CombineItemController(ISptLogger<CombineItemController> logger, EventOutputHolder eventOutputHolder,
     InventoryHelper inventoryHelper, HttpResponseUtil httpResponseUtil)
 {
-    public async ValueTask<ItemEventRouterResponse> CombineItems(PmcData pmcData, CombineItemsModel body, string sessionId)
+    public async ValueTask<ItemEventRouterResponse> CombineItems(PmcData pmcData, CombineItemsModel body, string sessionId, CancellationToken cancellationToken)
     {
         var output = eventOutputHolder.GetOutput(sessionId);
 
