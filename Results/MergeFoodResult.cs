@@ -5,9 +5,9 @@ using MergeConsumables.Models;
 
 namespace MergeConsumables.Results;
 
-public class MergeFoodResult : ISyncOperation, IOperationResult, IItemOperationResult, ITransferOrMergeResult, ISyncOperationResult
+public class MergeFoodResult : ITransferOrMergeResult, ISyncOperationResult
 {
-    public MergeFoodResult(Food item, ItemAddress from, Food targetItem, float count, OperationResult<DiscardResult> discard, ItemController itemController)
+    public MergeFoodResult(FoodDrink item, ItemAddress from, FoodDrink targetItem, float count, OperationResult<DiscardResult> discard, ItemController itemController)
     {
         _item = item;
         From = from;
@@ -47,8 +47,8 @@ public class MergeFoodResult : ISyncOperation, IOperationResult, IItemOperationR
 
     public ItemController ItemController { get; }
 
-    private readonly Food _item;
-    private readonly Food _targetItem;
+    private readonly FoodDrink _item;
+    private readonly FoodDrink _targetItem;
     private readonly OperationResult<DiscardResult> _discard;
 
     public bool CanExecute(ItemController itemController)

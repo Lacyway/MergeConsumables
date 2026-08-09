@@ -67,7 +67,7 @@ public static class ItemManipulatorExtensions
         return new MergeMedsResult(item, item.CurrentAddress, targetItem, transferAmount, discard, itemController);
     }
 
-    public static OperationResult<MergeFoodResult> MergeFood(Food item, Food targetItem, float count, ItemController itemController, bool simulate)
+    public static OperationResult<MergeFoodResult> MergeFood(FoodDrink item, FoodDrink targetItem, float count, ItemController itemController, bool simulate)
     {
         if (item.TemplateId != targetItem.TemplateId)
         {

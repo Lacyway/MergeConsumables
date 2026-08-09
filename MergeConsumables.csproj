@@ -89,7 +89,7 @@
     <Compile Include="Descriptors\MergeMedsDescriptor.cs" />
     <Compile Include="Models\CombineItemsModel.cs" />
     <Compile Include="Errors\WrongTypeError.cs" />
-    <Compile Include="InteractionsHandlerClassExtensions.cs" />
+    <Compile Include="ItemManipulatorExtensions.cs" />
     <Compile Include="Descriptors\MergeFoodDescriptor.cs" />
     <Compile Include="Operations\MergeMedsOperation.cs" />
     <Compile Include="Operations\MergeFoodOperation.cs" />

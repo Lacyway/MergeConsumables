@@ -26,9 +26,9 @@ public sealed class ExecutePossibleAction_Patch : ModulePatch
             return false;
         }
 
-        if (itemContext.Item is Food rootFoodItem
+        if (itemContext.Item is FoodDrink rootFoodItem
             && rootFoodItem.FoodDrinkComponent != null
-            && targetItem is Food targetFoodItem
+            && targetItem is FoodDrink targetFoodItem
             && targetFoodItem.FoodDrinkComponent != null)
         {
             __result = ItemManipulatorExtensions.MergeFood(rootFoodItem, targetFoodItem, 0, __instance, simulate);
