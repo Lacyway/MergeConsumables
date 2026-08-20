@@ -1,0 +1,88 @@
+name: Build And Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Release version (e.g., 1.0.0)'
+        required: true
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project and set outputs
+        id: build
+        run: |
+          # Detect the primary .csproj file path
+          CSPROJ_PATH=$(find . -maxdepth 2 -name "*.csproj" | head -n 1)
+          
+          if [ -z "$CSPROJ_PATH" ]; then
+            echo "Error: No .csproj file found."
+            exit 1
+          fi
+
+          # Extract project file name without extension
+          PROJECT_NAME=$(basename "$CSPROJ_PATH" .csproj)
+          echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_OUTPUT
+
+          dotnet build "$CSPROJ_PATH" \
+            --configuration Release \
+            --no-restore \
+            --output output/ \
+            -p:Version=${{ inputs.release_version }} \
+            -p:AssemblyVersion=${{ inputs.release_version }} \
+            -p:FileVersion=${{ inputs.release_version }} \
+            -p:InformationalVersion=${{ inputs.release_version }}
+
+      - name: Copy target files
+        run: |
+          PROJECT_NAME="${{ steps.build.outputs.PROJECT_NAME }}"
+          PLUGIN_DIR="BepInEx/plugins/$PROJECT_NAME"
+          
+          mkdir -p "$PLUGIN_DIR"
+          
+          # Move target DLL based on extracted csproj project name
+          if [ -f "output/${PROJECT_NAME}.dll" ]; then
+            cp "output/${PROJECT_NAME}.dll" "$PLUGIN_DIR/"
+          else
+            echo "Error: output/${PROJECT_NAME}.dll not found."
+            exit 1
+          fi
+
+          # Copy root LICENSE.md or fallback LICENSE file
+          if [ -f "LICENSE.md" ]; then
+            cp LICENSE.md "$PLUGIN_DIR/"
+          elif [ -f "LICENSE" ]; then
+            cp LICENSE "$PLUGIN_DIR/"
+          fi
+
+      - name: Zip the build
+        run: |
+          PROJECT_NAME="${{ steps.build.outputs.PROJECT_NAME }}"
+          ZIP_NAME="${PROJECT_NAME}${{ inputs.release_version }}.zip"
+          
+          zip -r "$ZIP_NAME" "BepInEx/plugins/$PROJECT_NAME"
+
+      - name: Create GitHub Release Draft
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: "v${{ inputs.release_version }}"
+          name: "${{ steps.build.outputs.PROJECT_NAME }} ${{ inputs.release_version }}"
+          draft: true
+          files: |
+            ${{ steps.build.outputs.PROJECT_NAME }}${{ inputs.release_version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
