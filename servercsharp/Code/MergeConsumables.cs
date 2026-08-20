@@ -11,13 +11,13 @@ public sealed record MyMdMetaData : IModMetadata
     public string Name { get; init; } = "MergeConsumablesServer";
     public string Author { get; init; } = "Lacyway";
     public List<string>? Contributors { get; init; } = ["Lacyway", "tyfon"];
-    public SemanticVersioning.Version Version { get; init; } = new("1.6.0");
-    public SemanticVersioning.Range SptVersion { get; init; } = new(">=4.1.1");
+    public SemanticVersioning.Version Version { get; init; } = new("1.6.2");
+    public SemanticVersioning.Range SptVersion { get; init; } = new(">=4.1.3");
     public bool HasPrepatcher { get; init; }
     public List<string>? Incompatibilities { get; init; }
     public Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; }
     public string? Url { get; init; } = "https://github.com/Lacyway/MergeConsumables";
-    public string License { get; init; } = "CC BY-NC-ND 4.0";
+    public string License { get; init; } = "All Rights Reserved";
 }
 
 [Injectable(TypePriority = OnLoadOrder.PostLoad)]
