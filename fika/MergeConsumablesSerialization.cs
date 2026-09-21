@@ -10,8 +10,8 @@ public static class MergeConsumablesSerialization
 {
     public static void AddMergeConsumableTypes(ManualLogSource logger)
     {
-        Register<MergeFoodDescriptor>(logger, PutMergeFoodsDescriptor, ReadMergeFoodsDescriptor);
-        Register<MergeMedsDescriptor>(logger, PutMergeMedsDescriptor, ReadMergeMedsDescriptor);
+        Register(logger, PutMergeFoodsDescriptor, ReadMergeFoodsDescriptor);
+        Register(logger, PutMergeMedsDescriptor, ReadMergeMedsDescriptor);
     }
 
     private static void Register<T>(ManualLogSource logger, Action<NetDataWriter, T> serializer,
@@ -23,9 +23,8 @@ public static class MergeConsumablesSerialization
             EFTSerializationExtensions.RegisterPolymorphicType(serializer, deserializer);
             logger.LogInfo($"Registered {type.Name}.");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-
             logger.LogError($"Failed registering {type.Name}.");
         }
     }
