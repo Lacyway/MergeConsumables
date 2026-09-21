@@ -20,7 +20,7 @@ public sealed class MergeFoodDescriptor : InventoryOperationDescriptor
         {
             return sourceItemResult.Error;
         }
-        if (sourceItemResult.Value is not Food sourceFood)
+        if (sourceItemResult.Value is not FoodDrink sourceFood)
         {
             return new WrongTypeError(sourceItemResult.Value);
         }
@@ -30,7 +30,7 @@ public sealed class MergeFoodDescriptor : InventoryOperationDescriptor
         {
             return targetItemResult.Error;
         }
-        if (targetItemResult.Value is not Food targetFood)
+        if (targetItemResult.Value is not FoodDrink targetFood)
         {
             return new WrongTypeError(targetItemResult.Value);
         }
