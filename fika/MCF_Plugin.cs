@@ -5,7 +5,7 @@ namespace MergeConsumablesFika;
 
 [BepInDependency("com.fika.core", BepInDependency.DependencyFlags.HardDependency)]
 [BepInDependency("com.lacyway.mc", BepInDependency.DependencyFlags.HardDependency)]
-[BepInPlugin("com.lacyway.mcf", "MergeConsumablesFika", "1.1.0")]
+[BepInPlugin("com.lacyway.mcf", "MergeConsumablesFika", "1.2.0")]
 internal class MCF_Plugin : BaseUnityPlugin
 {
     internal static ManualLogSource MC_Logger;
